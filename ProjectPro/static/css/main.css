@@ -1,0 +1,189 @@
+#headies {
+    color: rgb(182, 207, 179);
+    background-color: blueviolet;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0.6);
+    background-image: url("/static/bills.jpeg");
+    background-blend-mode: multiply;
+    background-size: cover;
+    padding-bottom: 20px;
+    padding-top: 15px;
+    text-align: center;
+    font-family: verdana;
+}
+
+.logout {
+    padding: 4px;
+    margin-left: 2rem;
+}
+
+.main-body {
+    color: rgb(66, 82, 133);
+    background-color: rgb(195, 212, 189);
+    font-weight: bold;
+}
+
+.bill_form {
+    max-width: fit-content;
+    margin-left:2rem;
+    border: 3px solid #dcd6f0;
+    padding: 15px;
+    font-family: verdana;
+    font-size: 100%;
+    border-radius: 5px;
+    border-style: groove;
+}
+
+.login_form {
+    max-width: fit-content;
+    margin: auto;
+    border: 6px solid #dcd6f0;
+    padding: 15px;
+    font-family: verdana;
+    font-size: 100%;
+    border-radius: 10px;
+    border-style: groove;
+    margin-top: 8rem
+}
+
+.user_form {
+    max-width: fit-content;
+    margin-left:2rem;
+    margin-top: 2rem;
+    border: 3px solid #dcd6f0;
+    padding: 15px;
+    font-family: verdana;
+    font-size: 100%;
+    border-radius: 5px;
+    border-style: ridge;
+}
+
+.payment {
+    max-width: fit-content;
+    margin-left:10rem;
+    margin-top: 10px;
+    padding: 5px;
+    color: rgb(126, 84, 150);
+    float: left;
+    font-family: Verdana;
+}
+
+.payers {
+    max-width: fit-content;
+    margin-top: 10px;
+    margin-right:25rem;
+    padding-top: 0px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    float: right;
+    border-radius: 5px;
+    border-left: 6px solid #bbb;
+    font-family: Verdana;
+}
+
+.createAcc {
+    left:50%;
+    transform: translateY(-50%);
+    margin: auto;
+    margin-left: 34.5rem;
+}
+
+.buttn {
+    padding: 6px;
+    font-family: Verdana;
+    font-size: 12px;
+    background-color: rgb(195, 212, 189);
+}
+
+.loginButtn {
+    padding: 8px;
+    font-family: Verdana;
+    font-size: 16px;
+    background-color: rgb(195, 212, 189);
+}
+
+#logo {
+    margin-left: 500px;
+    scale: 0.05;
+}
+
+#first {
+    text-align: left;
+}
+
+#second {
+    text-align: right;
+}
+
+.notification {
+    height: 25px;
+    padding: 12px;
+    text-shadow: 0.2px 0.2px 0.2px #CBC3E3;
+    border-radius: 5px;
+    display: flex;
+    margin-left: 2rem;
+    max-width: fit-content;
+    justify-content: center;
+    flex-direction: column;
+    font-family: Verdana;
+    color: #155724;
+    background-color: #d4edda;
+    border: solid 1px #c3e6cb;
+}
+
+hr.rounded {
+    border-top: 8px solid #bbb;
+    border-radius: 5px;
+    width:66.9%;
+    margin:0 auto;
+    margin-left: 30px;
+}
+
+hr.billDiv {
+    border-top: 2px solid rgb(88, 90, 177);
+    width:80%;
+    margin:0 auto;
+    margin-left: 15px;
+}
+
+#newMessage {
+    color: rgb(126, 84, 150);
+    text-align: center;
+}
+
+#subtitle {
+    text-decoration: underline;
+    text-align: center;
+    font-family: verdana;
+}
+
+#billSubtitle {
+    text-decoration: underline;
+    text-align: left;
+    font-family: verdana;
+}
+
+.inputFields {
+    width: 300px;
+    border-radius: 5px;
+    padding: 7px;
+}
+
+.registerInput {
+    width: 500px;
+    border-radius: 5px;
+    padding: 7px;
+}
+
+#toPay {
+    color: #211642;
+}
+
+#payed {
+    color: #ba47c9;
+}
+
+#payTitle {
+    color:rgb(88, 90, 177);
+}
