@@ -1,9 +1,6 @@
- Byte-compiled / optimized / DLL files
+#Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
-# C extensions
-*.so
 
 # Distribution / packaging
 bin/
@@ -42,13 +39,14 @@ coverage.xml
 # Rope
 .ropeproject
 
-# Django stuff:
-*.log
-*.pot
-
 # Sphinx documentation
 docs/_build/
 
 # Venv
 venv/
 pyvenv.cfg
+
+# Other
+.DS_Store/
+.idea/
+.vscode/

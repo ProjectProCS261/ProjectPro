@@ -1,14 +1,20 @@
+from Flask import Flask, flash, jsonify, render_template, request, redirect, session, url_for
+from Flask_Login import LoginManager
 
-from flask import Flask, flash, jsonify, render_template, request, redirect, session, url_for
+import pymongo
 
 import werkzeug
 from datetime import date
-from markupsafe import escape
+from MarkupSafe import escape
 
 from app import app
 
-# login_manager = LoginManager()
-# login_manager.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Connect to the MongoDB database
+client = pymongo.MongoClient("mongodb+srv://Brian:Kdh010315@cluster0.qmtgd2o.mongodb.net/test")
+db = client["cs261"]
 
 @app.route('/')
 def index():
