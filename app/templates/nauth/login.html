@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8" />
+		<title>Login Page</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="static/css/nauth/index.css" />
+	</head>
+	<body id="loginpage">
+          <div class="container">
+          <div class="wrapper">
+               <div class="loginTitle"><span>Log In</span></div>
+               <form action="/login" method="POST">
+                    <div class="row">
+                         <label for='email'>Email</label>
+                         <input type="email" placeholder="Enter your email" required>
+                    </div><br>
+                    
+                    <div class="row">
+                         <label for='password'>Password</label>
+                         <input type="password" placeholder="Enter your password" required>
+                    </div><br>
+                  
+                    <div class="row">
+                         <input type="submit" value="Log In" class="button">
+                    </div>
+                    <div class="newuser">
+                         <p>New user?  <a href="/register">Create an account</a></p>
+                    </div>
+                   
+               </form>
+          </div>
+          </div>
+	</body>
+</html>

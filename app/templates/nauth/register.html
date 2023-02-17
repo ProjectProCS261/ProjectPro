@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8" />
+		<title>Registration Page</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="static/css/nauth/index.css" />
+	</head>
+	<body id="registerpage">
+          <div class="container2">
+               <div class="registrationTitle"><span>Sign Up</span></div>
+               <form name='registration' action='/register' method="POST">
+                    <div class="userinfo">
+                         <div class="inputbox">
+                              <span class="info">Email</span>
+                              <input type="email" placeholder="Enter your email" required>
+                         </div>
+                         <div class="inputbox">
+                              <span class="info">Password</span>
+                              <input type="password" placeholder="Enter your password" required>
+                         </div>
+                         <div class="inputbox">
+                              <span class="info">Confirm Password</span>
+                              <input type="password" placeholder="Confirm your password" required>
+                         </div>
+                    </div>
+                   
+                    <div class="roletype">
+                         <input type="radio" name="role" id="role1">
+                         <input type="radio" name="role" id="role2">
+                         <span class="roletitle">Select Your Role:</span>
+                         <div class="roles">
+                              <label for="role1">
+                                   <span class="checkbox one"></span>
+                                   <span class="role">Project Owner</span>
+                              </label>
+                              <label for="role2">
+                                   <span class="checkbox two"></span>
+                                   <span class="role">Team Member</span>
+                              </label>
+                         </div>
+                    </div>
+
+                    <div class="row">  
+                         <input type="submit" value="Register" class="button">
+                    </div>
+
+                    <div class="loginuser">
+                         <br>
+                         <p>Already registered? <a href='/login'>Click here to login</a></p>
+                    </div>
+               </form>
+          </div>
+	</body>
+</html>
