@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import numpy as np
 from scipy import stats
 
-# This function will be run once project owner recalculates success of the project
+# This function connects to the database
 def getDatabase():
  
    # Provide the mongodb atlas url to connect python to mongodb using pymongo
