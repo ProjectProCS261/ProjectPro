@@ -154,3 +154,7 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('nauth/register.html')
+
+@app.route('/addproject')
+def addProject():
+    return render_template('auth/addProject.html')

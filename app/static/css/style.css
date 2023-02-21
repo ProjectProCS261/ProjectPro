@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: 'Poppins', sans-serif;
+}
+
+#loginpage {
+     background:rgba(255,219.64,187,1);
+     overflow: hidden;
+}
+
+.container {
+     max-width: 500px;
+     padding: 0 20px;
+     margin: 170px auto;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.wrapper {
+     width: 100%;
+     background:rgba(226.31,160.12,99.01,1);
+     border-radius: 5px;
+}
+
+.wrapper .loginTitle {
+     line-height: 70px;
+     background:rgb(145, 77, 13);
+     padding-left: 20px;
+     border-radius: 5px 5px 0 0; 
+     font-size: 25px;
+     font-weight: 600; 
+     color: #fff;
+     text-align: center;
+}
+
+.wrapper form {
+     padding: 30px 20px 25px 20px;
+}
+
+.wrapper form .row {
+     height: 45px;
+     margin-bottom: 15px;
+     position: relative;
+}
+
+.wrapper form .row input {
+     height: 45px;
+     width: 100%;
+     outline: none;
+     border-radius: 5px;
+     border: 1px solid lightgrey;
+     font-size: 14px;
+     padding-left: 15px;
+     border-bottom-width: 2px;
+     transition: all 0.3s ease;
+}
+
+.wrapper form label {
+     color: #000000;
+     font-size: 17px;
+     font-weight:500;
+}
+
+.wrapper form .button {
+     background:rgb(156, 82, 12);
+     font-size: 21px;
+     font-weight: 500;
+     padding-left: 0px;
+     color: white;
+     border: none;
+     border-radius: 10px;
+     cursor: pointer;
+}
+
+.wrapper form .button:hover { 
+     background-color: rgb(196, 112, 33);
+}
+
+.wrapper form .newuser {
+     text-align: center;
+}
+
+a:link, a:visited {
+     text-decoration: underline;
+     color:rgb(148, 73, 8);
+     font-weight: 500;
+}
+
+a:hover {
+     text-decoration:underline;
+     color:rgb(107, 52, 5);
+}
+
+#formpage {
+     background:rgba(255,219.64,187,1);
+     display: flex;
+     height: 100vh;
+     justify-content: center;
+     align-items: center;
+}
+
+.container2 {
+     max-width: 700px;
+     width: 100%;
+     background:rgba(226.31,160.12,99.01,1);
+     padding:25px 30px;
+     border-radius: 5px;
+}
+
+.container2 .formTitle {
+     font-size: 25px;
+     font-weight: 500;
+     position: relative;
+     text-align: center;
+}
+
+form .userinfo .inputbox {
+     margin: 20px 0 12px 0; 
+     width: calc(100%/2-20px);
+}
+
+.userinfo .inputbox .info {
+     display: block;
+     font-weight: 500;
+     margin-bottom: 5px;
+}
+
+.userinfo .inputbox input {
+     height:45px;
+     width: 100%;
+     outline: none;
+     border-radius: 5px;
+     border: 1px solid #ccc;
+     padding-left: 15px;
+     font-size: 14px;
+     border-bottom-width: 2px;
+     transition: all 0.3s ease;
+}
+
+.userinfo .inputbox select {
+     height:45px;
+     width: 100%;
+     outline: none;
+     border-radius: 5px;
+     border: 1px solid #ccc;
+     padding-left: 15px;
+     font-size: 14px;
+     border-bottom-width: 2px;
+     transition: all 0.3s ease;
+}
+
+form .roletype .roletitle {
+     font-size: 17px;
+     font-weight: 500;
+}
+
+form .roletype .roles {
+     display: flex;
+     width: 80%;
+     margin: 14px 0;
+     justify-content: space-between;
+}
+
+.roletype .roles label {
+     display: flex;
+}
+
+.roletype .roles .checkbox {
+     height: 17px;
+     width: 17px;
+     background: rgb(255, 255, 255);
+     border-radius: 60%;
+     margin-right: 10px;
+     border: 5px solid transparent;
+     transition: all 0.2s ease;
+}
+
+#role1:checked ~ .roles label .one, 
+#role2:checked ~ .roles label .two {
+     border-color: rgb(131, 66, 6);
+     background: rgb(216, 118, 25);
+}
+
+.container2 form input[type="radio"] {
+     display: none;
+}
+
+.container2 form .button {
+     background:rgb(156, 82, 12);
+     width: 100%;
+     height: 5vh;
+     /* margin-top: 2%; */
+     outline: none;
+     border: none;
+     color: white;
+     font-size: 18px;
+     font-weight: 500; 
+     border-radius: 10px;
+     cursor: pointer;
+     letter-spacing: 1px;
+}
+
+.container2 form .button:hover {
+     background-color: rgb(196, 112, 33);
+}
+
+.container2 form .loginuser {
+     text-align: center;
+}
