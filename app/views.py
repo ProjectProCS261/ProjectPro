@@ -20,7 +20,7 @@ db = client["cs261"]
 def index():
     # if current_user.is_authenticated:
     #     return redirect(url_for('home'))  # Redirect to logged-in default page
-    return render_template('nauth/login.html')
+    return render_template('nauth/register.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -88,11 +88,7 @@ def register():
         # return redirect(url_for('home'))
     return render_template('nauth/register.html')
 
-@app.route('/addproject')
-def addProject():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('home'))  # Redirect to logged-in default page
-    return render_template('auth/addProject.html')
+
 # @app.route('/home')
 # @login_required
 # def home():
