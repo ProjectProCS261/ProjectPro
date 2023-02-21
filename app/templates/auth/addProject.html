@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8" />
+		<title>Add Project</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="static/css/style.css" />
+	</head>
+	<body id="formpage">
+          <div class="container2">
+               <div class="formTitle"><span>Add Project</span></div>
+               <form name='addproject' action='/addproject' method="POST">
+                    <div class="userinfo">
+                         <div class="inputbox">
+                              <span class="info">Project Name</span>
+                              <input type="text" placeholder="Enter project name" required>
+                         </div>
+
+                         <div class="inputbox">
+                              <span class="info">Client Name</span>
+                              <input type="text" placeholder="Enter client name" required>
+                         </div>
+
+                         <div class="inputbox">
+                              <span class="info">Methodology</span>
+                              <select required>
+                                   <option hidden>Choose one</option> 
+                                   <option name="Waterfall" value="Waterfall">Waterfall Model</option>
+                                   <option name="Incremental" value="Incremental">Incremental Software Development</option>
+                                   <option name="Reuse" value="Reuse">Reuse-Oriented Sofware Engineering</option>
+                                   <option name="Extreme" value="Extreme">Extreme Programming</option>
+                                   <option name="Scrum" value="Scrum">Scrum</option>
+                              </select>
+                         </div>
+                         <div class="inputbox">
+                              <span class="info">Amount (£)</span>
+                              <input type="number" placeholder="Enter budget" min="0" step=".01" required>
+                         </div>
+
+                         <div class="inputbox">
+                              <span class="info">Project Deadline</span>
+                              <input type="date" id="date" name="date" required>
+                         </div>
+                    </div>
+                   
+
+                    <div class="row">  
+                         <input type="submit" value="Create" class="button">
+                    </div>
+
+          
+               </form>
+          </div>
+	</body>
+</html>
