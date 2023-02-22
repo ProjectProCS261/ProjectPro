@@ -36,9 +36,9 @@ def getProjectMetrics():
     methodology = list(initialProject.find( {"Methodology" : 1}, {"ProjectID" : projectID}))
 
     # Calculate averages
-    expenditure = np.sum(np.array(list(projectExpenditure.find( {"Expenditure" : 1}, {"ProjectID" : projectID}))))
-    metricsMean = np.mean(np.array(list(projectMetrics.find( {"_id_": 0, "Date" : 0, "Time" : 0 }, {"ProjectID" : projectID}))), axis=0)
-    onTrackMode = stats.mode(np.array(list(projectMetrics.find( {"On_Track" : 1}, {"ProjectID" : projectID}))))
+    expenditure = np.sum(np.array(list(projectExpenditure.find( {"ProjectID" : projectID}, {"Expenditure" : 1, "_id" : 0} ))))
+    metricsMean = np.mean(np.array(list(projectMetrics.find( {"ProjectID" : projectID}, {"_id": 0, "Date" : 0, "Time" : 0 } ))), axis=0)
+    onTrackMode = stats.mode(np.array(list(projectMetrics.find( {"ProjectID" : projectID}, {"On_Track" : 1, "_id" : 0} ))))
 
     # Concatenate list of metrics
     metrics = methodology + metricsMean + onTrackMode + expenditure
