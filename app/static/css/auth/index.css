@@ -1,0 +1,266 @@
+/* Reset styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    background-color: #f7f7f7;
+    overflow-y: auto;
+    padding: 20px;
+}
+  
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.user-info img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-email {
+    font-size: 14px;
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.sidebar-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: #333;
+    margin-bottom: 5px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.sidebar-menu a i {
+margin-right: 10px;
+}
+
+.sidebar-menu a:hover {
+color: #666;
+}
+
+.active {
+font-weight: bold;
+}
+
+.logout-button {
+margin-top: auto;
+}
+
+.logout-button a {
+    display: block;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.logout-button a:hover {
+background-color: #444;
+}
+
+/* Main content styles */
+.main-content {
+margin-left: 250px;
+padding: 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.logo img {
+height: 50px;
+}
+
+.pending-reviews ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pending-reviews a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.pending-reviews a:hover {
+    color: #666;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    font-weight: bold;
+}
+
+.status-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.green {
+    background-color: #00cc00;
+}
+
+.yellow {
+    background-color: #ffcc00;
+}
+
+.red {
+    background-color: #ff3333;
+}
+
+footer {
+    margin-top: 20px;
+}
+
+.project-stats {
+    display: flex;
+    justify-content: space-between;
+}
+
+.completed-projects,
+.ongoing-projects,
+.pending-projects {
+    text-align: center;
+}
+
+.completed-projects .stat-number,
+.ongoing-projects .stat-number,
+.pending-projects .stat-number {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.stat-title {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+.sidebar {
+    width: 100%;
+    height: 70px;
+    padding: 10px;
+}
+
+.sidebar-header {
+    margin-bottom: 10px;
+}
+
+.user-info {
+    display: none;
+}
+
+.sidebar-toggle {
+    display: block;
+    margin-left: auto;
+}
+
+.sidebar-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f7f7f7;
+    padding: 20px;
+}
+
+.sidebar-menu li {
+    margin-bottom: 20px;
+}
+
+.sidebar-menu a {
+    font-size: 20px;
+}
+
+.sidebar-menu a i {
+    margin-right: 20px;
+}
+
+.sidebar-menu.show {
+    display: block;
+}
+
+.main-content {
+    margin-left: 0;
+}
+}
