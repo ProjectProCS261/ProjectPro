@@ -1,7 +1,6 @@
 from database import getDatabase
 from team import insertTeam
 from datetime import datetime 
-# Still need to test once possible 
 
 # Inserts a new project into the database and returns project id
 def insertProject(projectName, clientName, methodology, budget, owner, startDate, deadline):
@@ -11,17 +10,17 @@ def insertProject(projectName, clientName, methodology, budget, owner, startDate
 
     # Insert project
     projectID = projects.insert_one({
-        "Project_Name" : projectName,
-        "Client_Name" : clientName,
-        "Methodology" : methodology,
-        "Budget" : budget,
-        "Owner_Email" : owner,
-        "StartDate" : startDate,
-        "Deadline" : deadline
+        'Project_Name' : projectName,
+        'Client_Name' : clientName,
+        'Methodology' : methodology,
+        'Budget' : budget,
+        'Owner_Email' : owner,
+        'StartDate' : startDate,
+        'Deadline' : deadline
     })
 
     # Create team for project
-    insertTeam(projectID, owner)
+    insertTeam(projectID.inserted_id, owner)
 
     return projectID
 
@@ -33,7 +32,7 @@ def getProject(projectName, owner):
     projects = db["PROJECT"]
 
     # Get and return project
-    project = projects.find_one( {"Projet_Name" : projectName, "Owner_Email" : owner} )
+    project = projects.find_one( {'Project_Name' : projectName, 'Owner_Email' : owner} )
     return project
 
 # Gets project ID
@@ -41,19 +40,17 @@ def getProjectID(projectName, owner):
 
     # Get project and return ID
     project = getProject(projectName, owner)
-    return project["_id"]
+    return project['_id']
 
 # Add expenditure to database
-def insertExpenditure(projectName, owner, expenditure):
-    date = datetime.now.strptime('%a, %d %b %Y %H:%M:%S')
-    date.isoformat()
+def insertExpenditure(projectName, owner, expenditure, date):
     projectID = getProjectID(projectName, owner)
     db = getDatabase()
     expenditures = db["PROJECT_EXPENDITURE"]
     expenditures.insert_one({
-        "ProjectID" : projectID,
-        "Expenditure" : expenditure,
-        "Date" : date
+        'ProjectID' : projectID,
+        'Expenditure' : expenditure,
+        'Date' : date
     })
 
 # Add status to project once calculated
@@ -62,10 +59,6 @@ def insertStatus(projectName, owner, status):
     db = getDatabase()
     statuses = db["PROJECT_STATUS"]
     statuses.insert_one({
-        "ProjectID" : projectID,
-        "Status" : status
+        'ProjectID' : projectID,
+        'Status' : status
     })
-
-
-
-

@@ -9,13 +9,13 @@ def insertTeam(projectID, owner):
 
     # Create team
     teamID = teams.insert_one({
-        "ProjectID" : projectID
+        'ProjectID' : projectID
     })
 
     # Add project owner to team
     userTeams.insert_one({
-        "User_Email" : owner,
-        "TeamID" : teamID
+        'User_Email' : owner,
+        'TeamID' : teamID.inserted_id
     })
     
 # Adds a user to a team
@@ -26,14 +26,12 @@ def addUserToTeam(userEmail, ownerEmail, projectName):
     teams = db["TEAM"]
 
     projectID = getProjectID(projectName, ownerEmail)
-    teamID = teams.find_one( {"ProjectID" : projectID}, {"_id" : 1})["_id"]
-    userTeamID = (userTeams.find_one( { "TeamID" : teamID }, {"_id" : 1} ))["_id"]
+    teamID = teams.find_one( {'ProjectID' : projectID}, {'_id' : 1})['_id']
+    userTeamID = (userTeams.find_one( { 'TeamID' : teamID.inserted_id }, {'_id' : 1} ))['_id']
 
     # Add user to team 
     userTeams.insert_one({
-        "User_TeamID" : userTeamID,
-        "User_Email" : userEmail,
-        "TeamID" : teamID
+        'User_TeamID' : userTeamID,
+        'User_Email' : userEmail,
+        'TeamID' : teamID
     })
-
-
