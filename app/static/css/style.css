@@ -103,6 +103,12 @@ a:hover {
      align-items: center;
 }
 
+#mainpage {
+     background:rgba(255,219.64,187,1);
+     display: flex;
+     height: 100vh;
+}
+
 .container2 {
      max-width: 700px;
      width: 100%;
@@ -210,4 +216,11 @@ form .roletype .roles {
 
 .container2 form .loginuser {
      text-align: center;
+}
+
+.containermain {
+     width: 100%;
+     background:rgba(226.31,160.12,99.01,1);
+     border-radius: 5px;
+     margin: 45px 100px 45px 100px;
 }

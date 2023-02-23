@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+</head>
+<body>
+    <!-- <h1>{{ project_name }}</h1> -->
+    <h1>Project Name!</h1>
+    <p>Forecast: poo</p>
+    <!-- <p>Forecast: {{ project_forecast }}</p> -->
+
+    <h2>Team Members</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Mood</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- {% for team_member in team_members %}
+            <tr>
+                <td>{{ team_member['name'] }}</td>
+                <td>{{ team_member['mood'] }}</td>
+            </tr>
+            {% endfor %} -->
+        </tbody>
+    </table>
+</body>
+</html>
