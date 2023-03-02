@@ -52,21 +52,11 @@ def getProjectMetrics(projectID, projectName, owner):
             'avgDiff' : {'$avg': '$DifficultyRating'},
             'avgProg' : {'$avg' : '$Progress'}
         }}]))
-    onTrackMode = list(projectMetrics.aggregate([ {
-            '$match': {
-            'On_Track': { '$exists': True } }
-        },{ 
-            '$group': { 
-            '_id': "$On_Track", 
-            'count': { '$sum': 1 } 
-            } 
-        }, { 
-            '$sort': { 'count': -1} 
-        } , { 
-            '$limit': 1 
-        } 
-        ]))
     
+    # INSTEAD OF GETTING MODE JUST GET LAST INPUT AND USE THAT
+
+    onTrack = projectMetrics.find( {'ProjectID' : projectID}, {'_id' : 0, 'On_Track' : 1}).sort('$natural', -1).limit(1)
+
     # Concatenate list of metrics
-    metrics = [methodology, months, teamSize, metricsMean[0]['avgMorale'], metricsMean[0]['avgComm'], metricsMean[0]['avgDiff'], metricsMean[0]['avgProg'], onTrackMode[0]['_id']]
+    metrics = [methodology, months, teamSize, metricsMean[0]['avgMorale'], metricsMean[0]['avgComm'], metricsMean[0]['avgDiff'], metricsMean[0]['avgProg'], onTrack[0]['On_Track']]
     return metrics
