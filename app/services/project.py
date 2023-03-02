@@ -22,7 +22,7 @@ def insertProject(projectName, clientName, methodology, budget, owner, startDate
     # Create team for project
     insertTeam(projectID.inserted_id, owner)
 
-    return projectID
+    return projectID.inserted_id
 
 
 # Gets information about a project returning a document e.g. {'_id' : ..., 'Project_Name' : ..., ...} otherwise returns None if project doesn't exist
@@ -53,6 +53,15 @@ def insertExpenditure(projectName, owner, expenditure, date):
         'Date' : date
     })
 
+# Returns all expenditures for a project
+def getExpenditures(projectName, owner):
+    projectID = getProjectID(projectName, owner)
+    db = getDatabase()
+    expenditures = db["PROJECT_EXPENDITURE"]
+    allExpenditures = expenditures.find({ 'ProjectID' : projectID }, {'_id' : 0, 'Expenditure' : 1})
+    return allExpenditures
+
+
 # Add status to project once calculated
 def insertStatus(projectName, owner, status):
     projectID = getProjectID(projectName, owner)
@@ -62,3 +71,18 @@ def insertStatus(projectName, owner, status):
         'ProjectID' : projectID,
         'Status' : status
     })
+
+def insertMetrics(projectName, owner, morale, diff, comm, prog, onTrack, date):
+    db = getDatabase()
+    collection = db["PROJECT_METRICS"]
+    projectID = getProjectID(projectName, owner)
+    collection.insert_one({
+        "ProjectID": projectID,
+        "MoraleRating": morale,
+        "DifficultyRating": diff,
+        "CommunicationRating": comm,
+        "Progress": prog,
+        "On_Track": onTrack,
+        "Date": date
+    })
+    
