@@ -13,17 +13,17 @@
                     <div class="userinfo">
                          <div class="inputbox">
                               <span class="info">Project Name</span>
-                              <input type="text" placeholder="Enter project name" required>
+                              <input name="projectname" type="text" placeholder="Enter project name" required>
                          </div>
 
                          <div class="inputbox">
                               <span class="info">Client Name</span>
-                              <input type="text" placeholder="Enter client name" required>
+                              <input name="clientname"  type="text" placeholder="Enter client name" required>
                          </div>
 
                          <div class="inputbox">
                               <span class="info">Methodology</span>
-                              <select required>
+                              <select name="methodology" required>
                                    <option hidden>Choose one</option> 
                                    <option name="Waterfall" value="Waterfall">Waterfall Model</option>
                                    <option name="Incremental" value="Incremental">Incremental Software Development</option>
@@ -34,15 +34,14 @@
                          </div>
                          <div class="inputbox">
                               <span class="info">Amount (£)</span>
-                              <input type="number" placeholder="Enter budget" min="0" step=".01" required>
+                              <input name="budget" type="number" placeholder="Enter budget" min="0" step=".01" required>
                          </div>
 
                          <div class="inputbox">
                               <span class="info">Project Deadline</span>
-                              <input type="date" id="date" name="date" required>
+                              <input type="date" id="date" name="deadline" required>
                          </div>
                     </div>
-                   
 
                     <div class="row">  
                          <input type="submit" value="Create" class="button">
