@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Project Dashboard</title>
+
+  
+    {% if name.is_authenticated %}
+	    <title>{{ name.email }}'s Project Dashboard</title>
+    {% else %}
+        <title>Project Dashboard</title>
+    {% endif %}
 	<link rel="stylesheet" type="text/css" href="../../static/css/auth/index.css">
 </head>
 <body>
@@ -9,7 +15,7 @@
 		<div class="sidebar-header">
 			<div class="user-info">
 				<img src="https://via.placeholder.com/50x50" alt="User Avatar">
-				<span class="user-email">johndoe@example.com</span>
+				<span class="user-email">{{ name.email }}</span>
 			</div>
 			<button class="sidebar-toggle">
 				<span></span>
@@ -21,7 +27,7 @@
 			<li class="active">
 				<a href="#">
 					<i class="fas fa-tachometer-alt"></i>
-					<span>Dashboard</span>
+					<span>Your Dashboard</span>
 				</a>
 			</li>
 			<li>
@@ -52,27 +58,38 @@
 		<main>
 			<h1>My Projects</h1>
 			<table>
-				<thead>
-					<tr>
-						<th>Project name</th>
-						<th>Status</th>
-					</tr>
-				</thead>
+				<tr>
+					<th>Project Name</th>
+					<th>Client Name</th>
+					<th>Methodology</th>
+					<th>Budget</th>
+					<th>Owner</th>
+					<th>Start Date</th>
+					<th>Deadline</th>
+				</tr>
 				<tbody>
-					<tr>
-						<td>Project 1</td>
-						<td><span class="status-circle green"></span></td>
-					</tr>
-					<tr>
-						<td>Project 2</td>
-						<td><span class="status-circle yellow"></span></td>
-					</tr>
-					<tr>
-						<td>Project 3</td>
-						<td><span class="status-circle red"></span></td>
-					</tr>
-				</tbody>
+					{% for project in projects %}
+						<tr>
+							<td>{{ project.Project_Name }}</td>
+							<td>{{ project.Client_Name }}</td>
+							<td>{{ project.Methodology }}</td>
+							<td>{{ project.Budget }}</td>
+							<td>{{ project.Owner }}</td>
+							<td>{{ project.Start_Date }}</td>
+							<td>{{ project.Deadline }}</td>
+						</tr>
+					{% endfor %}
 			</table>
+
+   			 <a href="{{ url_for('add_project') }}"><button>Add Project</button></a>
+                    <!-- {% for proj in project_names %}
+                        <tr>
+                            <td>{{ proj }}</td>
+                            <td><span class="status-circle green"></span></td>
+                        </tr>
+                    {% endfor %}
+				</tbody>
+			</table> -->
 		</main>
 		<footer>
 			<div class="project-stats">
