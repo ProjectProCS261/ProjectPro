@@ -1,0 +1,31 @@
+<div class="sidebar col-sidebar p-0 text-white" style="background-color:rgb(150, 103, 60)">
+    <div style="background-color: rgb(126, 88, 53); margin: 0">
+        <img class="img-fluid logo-image" src="../static/assets/logowhitetrans.png" title="PROJECTion logo" alt="PROJECTion logo" style="display:inline-block"/>
+    </div>
+    <div>
+        <!-- use jinja to display user's email address -->
+        <h6 class="mt-3"><i style="font-size: 2rem;" class="bi bi-person"></i><br>emailaddress@gmail.com</h6>
+    </div>
+    <form action="/logout">
+        <button id="logout-btn" class="btn text-white" type="submit">
+            <i class="bi bi-box-arrow-right me-2"></i>Logout
+        </button>
+    </form>
+    <div class="py-3 my-3" style="background-color:rgb(126, 88, 53)">
+        <a href="/home"><i class="bi bi-house me-2"></i>Dashboard</a>
+    </div>
+    <h5><i class="bi bi-folder me-2"></i>Ongoing Projects</h5>
+    <ul style="list-style-type:none">
+        <!-- use jinja to display all in-progress projects-->
+        <!-- additionally, use jinja in the href attribute to link to that project's form page -->
+        <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
+        <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 2</a></li>
+    </ul>
+    <div class="pt-3 pb-1 mt-3" style="background-color:rgb(126, 88, 53)">
+        <form action="/addproject">
+            <button id="add-project-btn" class="btn text-white" type="submit">
+                <i class="bi bi-clipboard-plus me-2"></i>Create Project
+            </button>
+        </form>
+    </div>
+</div>
