@@ -32,6 +32,36 @@
     height:50px;
 }
 
+.shadow-text {
+    text-shadow: 2px 2px black;
+}
+
+#logout-btn {
+    background-color:rgb(73, 72, 71);
+    width:200px;
+}
+
+#add-project-btn {
+    background-color:rgb(79, 85, 64);
+    width:200px;
+}
+
+#logout-btn:hover {
+    background-color:rgb(47, 46, 46);
+}
+
+#add-project-btn:hover {
+    background-color:rgb(57, 75, 60);
+}
+
+a, button {
+    color:white;
+}
+
+a:hover, button:hover {
+    color:rgb(178, 205, 233)
+}
+
 @media (min-width: 992px) {
     .project-board, .pending-board { min-height:250px }
 }
