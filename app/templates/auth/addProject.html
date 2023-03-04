@@ -9,20 +9,20 @@
 	<body id="formpage">
           <div class="container2">
                <div class="formTitle"><span>Add Project</span></div>
-               <form name='addproject' action='/addproject' method="POST">
+               <form name='addProject' action='/addProject' method="POST">
                     <div class="userinfo">
                          <div class="inputbox">
                               <span class="info">Project Name</span>
-                              <input type="text" placeholder="Enter project name" required>
+                              <input name="project_name" type="text" placeholder="Enter project name" required>
                          </div>
 
                          <div class="inputbox">
                               <span class="info">Client Name</span>
-                              <input type="text" placeholder="Enter client name" required>
+                              <input name="client_name" type="text" placeholder="Enter client name" required>
                          </div>
 
                          <div class="inputbox">
-                              <span class="info">Methodology</span>
+                              <!-- <span class="info">Methodology</span>
                               <select required>
                                    <option hidden>Choose one</option> 
                                    <option name="Waterfall" value="Waterfall">Waterfall Model</option>
@@ -30,17 +30,27 @@
                                    <option name="Reuse" value="Reuse">Reuse-Oriented Sofware Engineering</option>
                                    <option name="Extreme" value="Extreme">Extreme Programming</option>
                                    <option name="Scrum" value="Scrum">Scrum</option>
-                              </select>
+                              </select> -->
+                              <label for="methodology">Methodology:</label>
+                              <input type="text" name="methodology" required><br><br>
+
                          </div>
                          <div class="inputbox">
                               <span class="info">Amount (£)</span>
-                              <input type="number" placeholder="Enter budget" min="0" step=".01" required>
+                              <input name="budget" type="number" placeholder="Enter budget" min="0" step=".01" required>
                          </div>
 
-                         <div class="inputbox">
+                         <!-- <div class="inputbox">
                               <span class="info">Project Deadline</span>
                               <input type="date" id="date" name="date" required>
-                         </div>
+                         </div> -->
+
+                         <label for="owner">Owner:</label>
+                         <input type="email" name="owner" required><br><br>
+                         <label for="start_date">Start Date:</label>
+                         <input type="date" name="start_date" required><br><br>
+                         <label for="deadline">Deadline:</label>
+                         <input type="date" name="deadline" required><br><br>
                     </div>
                    
 
@@ -53,3 +63,30 @@
           </div>
 	</body>
 </html>
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Project</title>
+  </head>
+  <body>
+    <h1>Add Project</h1>
+    <form action="/add_project" method="POST">
+      <label for="project_name">Project Name:</label>
+      <input type="text" name="project_name" required><br><br>
+      <label for="client_name">Client Name:</label>
+      <input type="text" name="client_name" required><br><br>
+      <label for="methodology">Methodology:</label>
+      <input type="text" name="methodology" required><br><br>
+      <label for="budget">Budget:</label>
+      <input type="text" name="budget" required><br><br>
+      <label for="owner">Owner:</label>
+      <input type="email" name="owner" required><br><br>
+      <label for="start_date">Start Date:</label>
+      <input type="date" name="start_date" required><br><br>
+      <label for="deadline">Deadline:</label>
+      <input type="date" name="deadline" required><br><br>
+      <input type="submit" value="Add Project">
+    </form>
+  </body>
+</html> -->
