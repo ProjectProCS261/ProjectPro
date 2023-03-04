@@ -22,10 +22,10 @@
         <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 2</a></li>
     </ul>
     <div class="pt-3 pb-1 mt-3" style="background-color:rgb(126, 88, 53)">
-        <form action="/addproject">
+        <a href="{{ url_for('add_project') }}">
             <button id="add-project-btn" class="btn text-white" type="submit">
                 <i class="bi bi-clipboard-plus me-2"></i>Create Project
             </button>
-        </form>
+        </a>
     </div>
 </div>
