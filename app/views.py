@@ -92,6 +92,11 @@ def logout():
 def addProject():
     return render_template('auth/addProject.html')
 
+@app.route('/input')
+# @login_required 
+def input():
+    return render_template('auth/input.html')
+
 @app.route('/home')
 @login_required
 def home():
