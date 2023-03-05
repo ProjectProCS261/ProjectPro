@@ -9,38 +9,66 @@
 	<body id="formpage">
           <div class="container2">
                <div class="formTitle"><span>Add Project</span></div>
-               <form name='addproject' action='/addproject' method="POST">
+               <form name='addProject' action='/addProject' method="POST">
                     <div class="userinfo">
                          <div class="inputbox">
                               <span class="info">Project Name</span>
+<<<<<<< HEAD
                               <input name="projectname" type="text" placeholder="Enter project name" required>
+=======
+                              <input name="project_name" type="text" placeholder="Enter project name" required>
+>>>>>>> ca9cb6c6d1f0f9730c78c682a279a1329d32d6f0
                          </div>
 
                          <div class="inputbox">
                               <span class="info">Client Name</span>
+<<<<<<< HEAD
                               <input name="clientname"  type="text" placeholder="Enter client name" required>
                          </div>
 
                          <div class="inputbox">
                               <span class="info">Methodology</span>
                               <select name="methodology" required>
+=======
+                              <input name="client_name" type="text" placeholder="Enter client name" required>
+                         </div>
+
+                         <div class="inputbox">
+                              <!-- <span class="info">Methodology</span>
+                              <select required>
+>>>>>>> ca9cb6c6d1f0f9730c78c682a279a1329d32d6f0
                                    <option hidden>Choose one</option> 
                                    <option name="Waterfall" value="Waterfall">Waterfall Model</option>
                                    <option name="Incremental" value="Incremental">Incremental Software Development</option>
                                    <option name="Reuse" value="Reuse">Reuse-Oriented Sofware Engineering</option>
                                    <option name="Extreme" value="Extreme">Extreme Programming</option>
                                    <option name="Scrum" value="Scrum">Scrum</option>
-                              </select>
+                              </select> -->
+                              <label for="methodology">Methodology:</label>
+                              <input type="text" name="methodology" required><br><br>
+
                          </div>
                          <div class="inputbox">
                               <span class="info">Amount (£)</span>
                               <input name="budget" type="number" placeholder="Enter budget" min="0" step=".01" required>
                          </div>
 
-                         <div class="inputbox">
+                         <!-- <div class="inputbox">
                               <span class="info">Project Deadline</span>
+<<<<<<< HEAD
                               <input type="date" id="date" name="deadline" required>
                          </div>
+=======
+                              <input type="date" id="date" name="date" required>
+                         </div> -->
+
+                         <label for="owner">Owner Email:</label>
+                         <input type="email" name="owner" required><br><br>
+                         <label for="start_date">Start Date:</label>
+                         <input type="date" name="start_date" required><br><br>
+                         <label for="deadline">Deadline:</label>
+                         <input type="date" name="deadline" required><br><br>
+>>>>>>> ca9cb6c6d1f0f9730c78c682a279a1329d32d6f0
                     </div>
 
                     <div class="row">  
@@ -52,3 +80,30 @@
           </div>
 	</body>
 </html>
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Project</title>
+  </head>
+  <body>
+    <h1>Add Project</h1>
+    <form action="/add_project" method="POST">
+      <label for="project_name">Project Name:</label>
+      <input type="text" name="project_name" required><br><br>
+      <label for="client_name">Client Name:</label>
+      <input type="text" name="client_name" required><br><br>
+      <label for="methodology">Methodology:</label>
+      <input type="text" name="methodology" required><br><br>
+      <label for="budget">Budget:</label>
+      <input type="text" name="budget" required><br><br>
+      <label for="owner">Owner:</label>
+      <input type="email" name="owner" required><br><br>
+      <label for="start_date">Start Date:</label>
+      <input type="date" name="start_date" required><br><br>
+      <label for="deadline">Deadline:</label>
+      <input type="date" name="deadline" required><br><br>
+      <input type="submit" value="Add Project">
+    </form>
+  </body>
+</html> -->
