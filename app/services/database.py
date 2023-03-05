@@ -1,6 +1,9 @@
 from pymongo import MongoClient
 import numpy as np
 from scipy import stats
+from datetime import datetime
+from team import getTeamSize
+from project import getProject
 
 # This function connects to the database
 def getDatabase():
@@ -19,24 +22,39 @@ if __name__ == "__main__":
     db = getDatabase()
 
 # Get all metrics for a specific project once a project owner requests to calculate project risk
-def getProjectMetrics(projectID):
+def getProjectMetrics(projectID, projectName, owner):
     # Get the database
     db = getDatabase()
 
     # Get metrics
-    initialProject = db["PROJECT"]
+    project = db["PROJECT"]
     projectMetrics = db["PROJECT_METRICS"]
-    projectExpenditure = db["PROJECT_EXPENDITURE"]
+    
+    projectData = getProject(projectName, owner)
 
-    # Need to test once we have sample data to test from
     # Get methodology 
-    methodology = list(initialProject.find( {"Methodology" : 1}, {"ProjectID" : projectID}))
+    methodology = projectData['Methodology']
 
+    start = datetime.strptime(projectData["StartDate"], "%Y-%m-%d").date()
+    end = datetime.strptime(projectData["Deadline"], "%Y-%m-%d").date()
+    days = abs(end-start).days
+    months = days / (365/12)
+    
+    teamSize = getTeamSize(projectName, owner)
     # Calculate averages
-    expenditure = np.sum(np.array(list(projectExpenditure.find( {"ProjectID" : projectID}, {"Expenditure" : 1, "_id" : 0} ))))
-    metricsMean = np.mean(np.array(list(projectMetrics.find( {"ProjectID" : projectID}, {"_id": 0, "Date" : 0, "Time" : 0 } ))), axis=0)
-    onTrackMode = stats.mode(np.array(list(projectMetrics.find( {"ProjectID" : projectID}, {"On_Track" : 1} ))))
-
+    metricsMean = list(projectMetrics.aggregate([ {
+            '$match': {'ProjectID' : projectID}
+        }, {
+            '$group' : { 
+            '_id' : 0, 
+            'avgMorale' : {'$avg': '$MoraleRating'}, 
+            'avgComm' : {'$avg': '$CommunicationRating'}, 
+            'avgDiff' : {'$avg': '$DifficultyRating'},
+            'avgProg' : {'$avg' : '$Progress'}
+        }}]))
+    
+    onTrack = projectMetrics.find( {'ProjectID' : projectID}, {'_id' : 0, 'On_Track' : 1}).sort('$natural', -1).limit(1)
+    
     # Concatenate list of metrics
-    metrics = methodology + metricsMean + onTrackMode + expenditure
+    metrics = [methodology,  months, teamSize, metricsMean[0]['avgMorale'], metricsMean[0]['avgComm'], metricsMean[0]['avgDiff'], metricsMean[0]['avgProg'], onTrack[0]['On_Track']]
     return metrics

@@ -1,5 +1,4 @@
 from database import getDatabase
-from team import insertTeam
 from datetime import datetime 
 
 # Inserts a new project into the database and returns project id
@@ -22,9 +21,26 @@ def insertProject(projectName, clientName, methodology, budget, owner, startDate
     # Create team for project
     insertTeam(projectID.inserted_id, owner)
 
-    return projectID
+    return projectID.inserted_id
 
+# Creates team for a project after a project is created
+def insertTeam(projectID, owner):
+    # Connect to database
+    db = getDatabase()
+    teams = db["TEAM"]
+    userTeams = db["USER_TEAM"]
 
+    # Create team
+    teamID = teams.insert_one({
+        'ProjectID' : projectID
+    })
+
+    # Add project owner to team
+    userTeams.insert_one({
+        'User_Email' : owner,
+        'TeamID' : teamID.inserted_id
+    })
+    
 # Gets information about a project returning a document e.g. {'_id' : ..., 'Project_Name' : ..., ...} otherwise returns None if project doesn't exist
 def getProject(projectName, owner):
     # Connect to database
@@ -53,6 +69,15 @@ def insertExpenditure(projectName, owner, expenditure, date):
         'Date' : date
     })
 
+# Returns all expenditures for a project
+def getExpenditures(projectName, owner):
+    projectID = getProjectID(projectName, owner)
+    db = getDatabase()
+    expenditures = db["PROJECT_EXPENDITURE"]
+    allExpenditures = expenditures.find({ 'ProjectID' : projectID }, {'_id' : 0, 'Expenditure' : 1})
+    return allExpenditures
+
+
 # Add status to project once calculated
 def insertStatus(projectName, owner, status):
     projectID = getProjectID(projectName, owner)
@@ -62,3 +87,19 @@ def insertStatus(projectName, owner, status):
         'ProjectID' : projectID,
         'Status' : status
     })
+
+# Add a users metrics to database
+def insertMetrics(projectName, owner, morale, diff, comm, prog, onTrack, date):
+    db = getDatabase()
+    collection = db["PROJECT_METRICS"]
+    projectID = getProjectID(projectName, owner)
+    collection.insert_one({
+        "ProjectID": projectID,
+        "MoraleRating": morale,
+        "DifficultyRating": diff,
+        "CommunicationRating": comm,
+        "Progress": prog,
+        "On_Track": onTrack,
+        "Date": date
+    })
+    
