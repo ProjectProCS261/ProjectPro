@@ -192,13 +192,13 @@ def wrongMethodology(projectName, owner):
             relativeSize = teamSize - 9 / teamSize
         else:
             relativeSize = (3 - teamSize) / 3
-    elif methodology == "Feature-Driven Development" and teamSize > 5 or teamSize < 3:
+    elif methodology == "Feature-Driven" and teamSize > 5 or teamSize < 3:
         badSize = True
         if teamSize > 5:
             relativeSize = teamSize - 5 / teamSize
         else:
             relativeSize = (3 - teamSize) / 3
-    elif methodology == "Extreme-Programming" and teamSize > 12 or teamSize < 2:
+    elif methodology == "Extreme Programming" and teamSize > 12 or teamSize < 2:
         badSize = True
         if teamSize > 12:
             relativeSize = teamSize - 12 / teamSize
