@@ -53,8 +53,14 @@ def runAlg(projectName, owner):
     # Predict on new data
     newData =  np.concatenate((df[1:6],methodsMatch.get(df[0]))).reshape(1,-1)
     yPred = lr.predict(newData)
-    yPredNp = np.array(yPred)
-    initProbOfFailure = np.mean(np.array(yPred[0]))
+    yPredNp = np.absolute(np.array(yPred))
+
+    # Ensure probabilities aren't greater than 1
+    lowMorale = min(yPredNp[0,0],1)
+    tooDifficult = min(yPredNp[0,1],1)
+    poorCommunication = min(1,yPredNp[0,2])
+
+    initProbOfFailure = (lowMorale + tooDifficult + poorCommunication) / 3
 
     # Calculate additional probabilities
     onTrack = df[7]
@@ -81,10 +87,6 @@ def runAlg(projectName, owner):
         methodTeamProb = wrongMethod - 1
     else:
         methodTeamProb = wrongMethod
-
-    lowMorale = yPred[0,0]
-    tooDifficult = yPred[0,1]
-    poorCommunication = yPred[0,2]
 
     # Return list of probabilities
     return [initProbOfFailure, lowMorale, tooDifficult, poorCommunication, progressProb, budgetProb, methodTeamProb]
