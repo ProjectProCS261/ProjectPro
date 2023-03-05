@@ -16,6 +16,7 @@ def addUserToTeam(userEmail, ownerEmail, projectName):
         'TeamID' : teamID
     })
 
+# Gets the number of users in a team for a project
 def getTeamSize(projectName, ownerEmail):
     db = getDatabase()
     userTeams = db["USER_TEAM"]

@@ -88,6 +88,7 @@ def insertStatus(projectName, owner, status):
         'Status' : status
     })
 
+# Add a users metrics to database
 def insertMetrics(projectName, owner, morale, diff, comm, prog, onTrack, date):
     db = getDatabase()
     collection = db["PROJECT_METRICS"]
