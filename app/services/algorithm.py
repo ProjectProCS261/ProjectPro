@@ -18,7 +18,7 @@ def runAlg(projectName, owner):
     df = getProjectMetrics(projectID, projectName, owner)
 
     # Get example data
-    f = open("sampleData.json")
+    f = open("sampledata.json")
     sampleData = json.load(f)
     exampleData = pd.to_csv(pd.read_json(sampleData))
     exampleData = pd.DataFrame(sampleData)
