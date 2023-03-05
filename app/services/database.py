@@ -34,7 +34,7 @@ def getProjectMetrics(projectID, projectName, owner):
 
     # Get methodology 
     methodology = projectData['Methodology']
-    
+
     start = datetime.strptime(projectData["StartDate"], "%Y-%m-%d").date()
     end = datetime.strptime(projectData["Deadline"], "%Y-%m-%d").date()
     days = abs(end-start).days
@@ -53,10 +53,8 @@ def getProjectMetrics(projectID, projectName, owner):
             'avgProg' : {'$avg' : '$Progress'}
         }}]))
     
-    # INSTEAD OF GETTING MODE JUST GET LAST INPUT AND USE THAT
-
     onTrack = projectMetrics.find( {'ProjectID' : projectID}, {'_id' : 0, 'On_Track' : 1}).sort('$natural', -1).limit(1)
-
+    
     # Concatenate list of metrics
-    metrics = [methodology, months, teamSize, metricsMean[0]['avgMorale'], metricsMean[0]['avgComm'], metricsMean[0]['avgDiff'], metricsMean[0]['avgProg'], onTrack[0]['On_Track']]
+    metrics = [methodology,  months, teamSize, metricsMean[0]['avgMorale'], metricsMean[0]['avgComm'], metricsMean[0]['avgDiff'], metricsMean[0]['avgProg'], onTrack[0]['On_Track']]
     return metrics
