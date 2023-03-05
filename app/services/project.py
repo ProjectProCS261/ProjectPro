@@ -1,5 +1,4 @@
 from database import getDatabase
-from team import insertTeam
 from datetime import datetime 
 
 # Inserts a new project into the database and returns project id
@@ -24,7 +23,24 @@ def insertProject(projectName, clientName, methodology, budget, owner, startDate
 
     return projectID.inserted_id
 
+# Creates team for a project after a project is created
+def insertTeam(projectID, owner):
+    # Connect to database
+    db = getDatabase()
+    teams = db["TEAM"]
+    userTeams = db["USER_TEAM"]
 
+    # Create team
+    teamID = teams.insert_one({
+        'ProjectID' : projectID
+    })
+
+    # Add project owner to team
+    userTeams.insert_one({
+        'User_Email' : owner,
+        'TeamID' : teamID.inserted_id
+    })
+    
 # Gets information about a project returning a document e.g. {'_id' : ..., 'Project_Name' : ..., ...} otherwise returns None if project doesn't exist
 def getProject(projectName, owner):
     # Connect to database

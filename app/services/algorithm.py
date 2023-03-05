@@ -7,6 +7,7 @@ from project import getProject, getExpenditures, getProjectID
 from team import getTeamSize
 import numpy as np
 from datetime import datetime
+import json
 
 def runAlg(projectName, owner):
     # Get project ID
@@ -14,7 +15,9 @@ def runAlg(projectName, owner):
     # Load data to predict into a pandas DataFrame
     df = pd.read_csv(getProjectMetrics(projectID, projectName, owner))
     # Get example data
-    exampleData = pd.to_csv(pd.read_json(sample))
+    f = open("sample.json")
+    sampleData = json.load(f)
+    exampleData = pd.to_csv(pd.read_json(sampleData))
     # Split example data into features x and target y
     # X should be 2D array
     X = exampleData[['Methodology', 'Budget', 'Duration', 'GroupSize', 'MoraleRating', 'DifficultyRating', 'CommunicationRating']].values()

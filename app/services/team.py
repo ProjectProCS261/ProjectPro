@@ -1,23 +1,6 @@
 from database import getDatabase
 from project import getProjectID
-# Creates team for a project after a project is created
-def insertTeam(projectID, owner):
-    # Connect to database
-    db = getDatabase()
-    teams = db["TEAM"]
-    userTeams = db["USER_TEAM"]
 
-    # Create team
-    teamID = teams.insert_one({
-        'ProjectID' : projectID
-    })
-
-    # Add project owner to team
-    userTeams.insert_one({
-        'User_Email' : owner,
-        'TeamID' : teamID.inserted_id
-    })
-    
 # Adds a user to a team
 def addUserToTeam(userEmail, ownerEmail, projectName):
     # Connect to database
