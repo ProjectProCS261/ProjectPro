@@ -44,7 +44,7 @@ def runAlg(projectName, owner):
     morale = y_train[:,0]
     diff = y_train[:,1]
     comm = y_train[:,2]
-    y_train = np.column_stack((le.fit_transform(morale), le.fit_transform(diff), le.fit_transform(comm),))
+    y_train = np.column_stack((le.fit_transform(morale), le.fit_transform(diff), le.fit_transform(comm)))
 
     # Train a linear regression model
     lr = LinearRegression(fit_intercept=False)
