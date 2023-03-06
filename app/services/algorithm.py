@@ -58,9 +58,10 @@ def runAlg(projectName, owner):
     # Ensure probabilities aren't greater than 1
     lowMorale = min(yPredNp[0,0],1)
     tooDifficult = min(yPredNp[0,1],1)
-    poorCommunication = min(1,yPredNp[0,2])
+    poorCommunication = min(yPredNp[0,2],1)
 
-    initProbOfFailure = (lowMorale + tooDifficult + poorCommunication) / 3
+    # Calculate weighted average 
+    initProbOfFailure =  ((0.49 * lowMorale) + (0.72 * tooDifficult) +  (0.57 * poorCommunication)) / 1.78
 
     # Calculate additional probabilities
     onTrack = df[7]
