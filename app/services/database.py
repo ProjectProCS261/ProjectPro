@@ -41,20 +41,33 @@ def getProjectMetrics(projectID, projectName, owner):
     months = days / (365/12)
     
     teamSize = getTeamSize(projectName, owner)
-    # Calculate averages
-    metricsMean = list(projectMetrics.aggregate([ {
-            '$match': {'ProjectID' : projectID}
-        }, {
-            '$group' : { 
-            '_id' : 0, 
-            'avgMorale' : {'$avg': '$MoraleRating'}, 
-            'avgComm' : {'$avg': '$CommunicationRating'}, 
-            'avgDiff' : {'$avg': '$DifficultyRating'},
-            'avgProg' : {'$avg' : '$Progress'}
-        }}]))
     
-    onTrack = projectMetrics.find( {'ProjectID' : projectID}, {'_id' : 0, 'On_Track' : 1}).sort('$natural', -1).limit(1)
+    # If no project metrics have been inputted yet, assume default values
+    metricCount = projectMetrics.count_documents( {'projectID' : projectID} )
+    if metricCount == 0:
+        avgMorale = 5
+        avgDiff = 5
+        avgComm = 5
+        avgProg = 5
+        onTrack = 'On Schedule'
+    else:
+        # Calculate averages
+        metricsMean = list(projectMetrics.aggregate([ {
+                '$match': {'ProjectID' : projectID}
+            }, {
+                '$group' : { 
+                '_id' : 0, 
+                'avgMorale' : {'$avg': '$MoraleRating'}, 
+                'avgComm' : {'$avg': '$CommunicationRating'}, 
+                'avgDiff' : {'$avg': '$DifficultyRating'},
+                'avgProg' : {'$avg' : '$Progress'}
+            }}]))
+        avgMorale = metricsMean[0]['avgMorale']
+        avgComm = metricsMean[0]['avgComm']
+        avgDiff = metricsMean[0]['avgDiff']
+        avgProg = metricsMean[0]['avgProg']
+        onTrack = (projectMetrics.find( {'ProjectID' : projectID}, {'_id' : 0, 'On_Track' : 1} ).sort('$natural', -1).limit(1))[0]['On_Track']
     
     # Concatenate list of metrics
-    metrics = [methodology,  months, teamSize, metricsMean[0]['avgMorale'], metricsMean[0]['avgComm'], metricsMean[0]['avgDiff'], metricsMean[0]['avgProg'], onTrack[0]['On_Track']]
+    metrics = [methodology,  months, teamSize, avgMorale, avgComm, avgDiff, avgProg, onTrack]
     return metrics

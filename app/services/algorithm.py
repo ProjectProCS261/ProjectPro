@@ -56,12 +56,12 @@ def runAlg(projectName, owner):
     yPredNp = np.absolute(np.array(yPred))
 
     # Ensure probabilities aren't greater than 1
-    lowMorale = min(yPredNp[0,0],1)
-    tooDifficult = min(yPredNp[0,1],1)
-    poorCommunication = min(yPredNp[0,2],1)
+    lowMorale = 0.49 * min(yPredNp[0,0],1)
+    tooDifficult = 0.72 * min(yPredNp[0,1],1)
+    poorCommunication = 0.57 * min(yPredNp[0,2],1)
 
     # Calculate weighted average 
-    initProbOfFailure =  ((0.49 * lowMorale) + (0.72 * tooDifficult) +  (0.57 * poorCommunication)) / 1.78
+    initProbOfFailure =  (lowMorale + tooDifficult +  poorCommunication) / 1.78
 
     # Calculate additional probabilities
     onTrack = df[7]
@@ -71,7 +71,7 @@ def runAlg(projectName, owner):
     behind = behindSched(onTrack, progress)
 
     # Alter probability based on additional metrics
-    initProbOfFailure = initProbOfFailure * overBudg * wrongMethod * behind
+    initProbOfFailure = min(initProbOfFailure * overBudg * wrongMethod * behind,1)
 
     # Get actual probability of a project failing because of behing behind schedule and not making enough progress
     if behind >= 1:
@@ -187,7 +187,7 @@ def wrongMethodology(projectName, owner):
             relativeSize = (teamSize - 7) / teamSize
         else:
             relativeSize = (3 - teamSize) / 3
-    elif methodology == "Scrum" and teamSize > 9 or teamSize < 3:
+    elif methodology == "Scrum" and teamSize > 10 or teamSize < 3:
         badSize = True
         if teamSize > 9:
             relativeSize = teamSize - 9 / teamSize
