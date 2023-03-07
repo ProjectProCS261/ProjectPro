@@ -1,96 +1,106 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Project Dashboard</title>
-	<link rel="stylesheet" type="text/css" href="../../static/css/auth/index.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="../static/css/styleHome.css" rel="stylesheet">
+    {% if name.is_authenticated %}
+      <title>{{ name.email }}'s PROJECTion</title>
+    {% else %}
+        <title>PROJECTion</title>
+    {% endif %}
 </head>
 <body>
-	<div class="sidebar">
-		<div class="sidebar-header">
-			<div class="user-info">
-				<img src="https://via.placeholder.com/50x50" alt="User Avatar">
-				<span class="user-email">johndoe@example.com</span>
-			</div>
-			<button class="sidebar-toggle">
-				<span></span>
-				<span></span>
-				<span></span>
-			</button>
-		</div>
-		<ul class="sidebar-menu">
-			<li class="active">
-				<a href="#">
-					<i class="fas fa-tachometer-alt"></i>
-					<span>Dashboard</span>
-				</a>
-			</li>
-			<li>
-				<a href="#">
-					<i class="fas fa-tasks"></i>
-					<span>Active Projects</span>
-				</a>
-			</li>
-		</ul>
-		<div class="logout-button">
-			<a href="/logout">Logout</a>
-		</div>
-	</div>
-	<div class="main-content">
-		<header>
-			<div class="logo">
-				<img src="https://via.placeholder.com/200x50" alt="Company Logo">
-			</div>
-			<div class="pending-reviews">
-				<h2>Pending Reviews</h2>
-				<ul>
-					<li><a href="#">Project 1</a></li>
-					<li><a href="#">Project 2</a></li>
-					<li><a href="#">Project 3</a></li>
-				</ul>
-			</div>
-		</header>
-		<main>
-			<h1>My Projects</h1>
-			<table>
-				<thead>
-					<tr>
-						<th>Project name</th>
-						<th>Status</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Project 1</td>
-						<td><span class="status-circle green"></span></td>
-					</tr>
-					<tr>
-						<td>Project 2</td>
-						<td><span class="status-circle yellow"></span></td>
-					</tr>
-					<tr>
-						<td>Project 3</td>
-						<td><span class="status-circle red"></span></td>
-					</tr>
-				</tbody>
-			</table>
-		</main>
-		<footer>
-			<div class="project-stats">
-				<div class="completed-projects">
-					<h3>Projects completed</h3>
-					<div class="stat-number">10</div>
-				</div>
-				<div class="ongoing-projects">
-					<h3>Ongoing projects</h3>
-					<div class="stat-number">5</div>
-				</div>
-				<div class="pending-projects">
-					<h3>Pending review</h3>
-					<div class="stat-number">3</div>
-				</div>
-			</div>
-		</footer>
-	</div>
-	<script src="https://kit.fontawesome.com/1234567890.js" crossorigin="anonymous"></script>
+
+<div class="container-fluid">
+    <div class="row">
+
+        {% include 'auth/sidebar.html' %}
+
+        <div class="main-content col-main text-white" style="background-color:rgb(51, 50, 50)">
+            <div class="container-fluid">
+                <div class="display-5 mt-3 show-lg">Dashboard</div>
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card border-0 mt-4 p-3" style="background-color:rgb(75, 60, 85)">
+                            <div class="row justify-content-evenly" style="text-align:center">
+                                <!-- use jinja for each of the three cards to display the relevant information -->
+                                <div class="card border-0 col-5 col-md-3 p-2" style="background-color:rgb(128, 147, 94)">
+                                    <h6 class="card-title">Projects Completed</h6>
+                                    <div class="display-6 shadow-text">17</div>
+                                </div>
+                                <div class="card border-0 col-5 col-md-3 p-2" style="background-color:rgb(158, 126, 97)">
+                                    <h6 class="card-title">Ongoing Projects</h6>
+                                    <div class="display-6 shadow-text">2</div>
+                                </div>
+                                <div class="card border-0 col-5 col-md-3 p-2 mt-2 mt-md-0" style="background-color:rgb(149, 97, 97)">
+                                    <h6 class="card-title">Pending Reviews</h6>
+                                    <div class="display-6 shadow-text">1</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mb-4">
+                    <div class="col-12 col-lg-7">
+                        <div class="card border-0 mt-4 project-board" style="background-color:rgb(73, 72, 71)">
+                            <div class="card-body text-start">
+                                <h2 class="card-title">My Projects</h2>
+                                <table class="table text-white">
+                                  
+                                  <tr>
+                                    <th>Project Name</th>
+                                    <th>Client Name</th>
+                                    <th>Methodology</th>
+                                    <th>Budget</th>
+                                    <th>Owner</th>
+                                    <th>Start Date</th>
+                                    <th>Deadline</th>
+                                  </tr>
+                                  <tbody>
+                                    {% for project in projects %}
+                                      <tr>
+                                        <td>{{ project.Project_Name }}</td>
+                                        <td>{{ project.Client_Name }}</td>
+                                        <td>{{ project.Methodology }}</td>
+                                        <td>{{ project.Budget }}</td>
+                                        <td>{{ project.Owner }}</td>
+                                        <td>{{ project.Start_Date }}</td>
+                                        <td>{{ project.Deadline }}</td>
+                                        <td><i class="bi bi-check-circle-fill me-2" style="color:rgb(63, 153, 63)"></i>Completed</td>
+                                        <td><i class="bi bi-slash-circle-fill me-2" style="color:rgb(196, 128, 52)"></i>In progress</td>
+                                        <td><i class="bi bi-dash-circle-fill me-2" style="color:rgb(145, 60, 48)"></i>On hold</span></td>
+                                      </tr>
+                                    {% endfor %}
+                                </table>
+                 
+                            </main>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <div class="card border-0 mt-4 pending-board" style="background-color:rgb(94, 61, 61)">
+                            <div class="card-body text-start">
+                                <h4 class="card-title"><i class="bi bi-exclamation-circle me-2"></i>Pending Review</h4>
+                                <ul style="list-style-type:none">
+                                    <!-- use jinja to display all ongoing projects, where the user has not submitted their input form for the current week -->
+                                    <!-- similarly to the sidebar, have these act as links to that project's form page -->
+                                    <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
+integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>

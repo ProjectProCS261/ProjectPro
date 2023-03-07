@@ -10,10 +10,10 @@ idna==3.4
 itsdangerous==2.0.1
 Jinja2==3.0.3
 MarkupSafe==2.0.1
-numpy==1.24.2
 pymongo==4.3.3
 python-decouple==3.4
 python-dotenv==0.19.2
-scipy==1.10.0
 Werkzeug==2.0.2
 WTForms==3.0.0
+scikit-learn==1.2.1
+pandas==1.5.3
