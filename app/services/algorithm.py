@@ -135,8 +135,8 @@ def behindSched(onTrack, progress):
 def overBudget(projectName, owner):
     # Calculate total number of weeks 
     project = getProject(projectName, owner)
-    start = datetime.strptime(project["StartDate"], "%Y-%m-%d").date()
-    end = datetime.strptime(project["Deadline"], "%Y-%m-%d").date()
+    start = project["StartDate"]
+    end = project["Deadline"]
     days = abs(end-start).days
     currentDate = datetime.today().date()
     currentDays = abs(currentDate-start).days
