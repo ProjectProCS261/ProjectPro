@@ -119,8 +119,8 @@ def getProjectMetrics(projectID, projectName, owner):
     # Get methodology 
     methodology = projectData['Methodology']
 
-    start = datetime.strptime(projectData["StartDate"], "%Y-%m-%d").date()
-    end = datetime.strptime(projectData["Deadline"], "%Y-%m-%d").date()
+    start = projectData["StartDate"]
+    end = projectData["Deadline"]
     days = abs(end-start).days
     months = days / (365/12)
     
