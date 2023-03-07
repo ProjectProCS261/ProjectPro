@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="../static/css/styleHome.css" rel="stylesheet">
+    <title>PROJECTion</title>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+
+        {% include 'auth/sidebar.html' %}
+
+        <div class="main-content col-main text-white" style="background-color:rgb(51, 50, 50)">
+            <div class="container-fluid">
+                <div class="display-5 mt-3 show-lg">[Project Name]</div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card border-0 mt-4 py-3" style="background-color:rgb(75, 60, 85)">
+                            <div class="row justify-content-evenly" style="text-align:center">
+                                <!-- use jinja for each of the three cards to display the relevant information -->
+                                <div class="card border-0 col-5 col-md-2 p-2" style="background-color:rgb(83, 124, 129)">
+                                    <h6 class="card-title">Morale</h6>
+                                    <div class="display-6 shadow-text">78%</div>
+                                </div>
+                                <div class="card border-0 col-5 col-md-2 p-2" style="background-color:rgb(83, 124, 129)">
+                                    <h6 class="card-title">Difficulty</h6>
+                                    <div class="display-6 shadow-text">25%</div>
+                                </div>
+                                <div class="card border-0 col-5 col-md-2 p-2 mt-2 mt-md-0" style="background-color:rgb(83, 124, 129)">
+                                    <h6 class="card-title comm-bg">Communication</h6>
+                                    <h6 class="card-title comm-sm">Comms</h6>
+                                    <div class="display-6 shadow-text">67%</div>
+                                </div>
+                                <div class="card border-0 col-5 col-md-2 p-2 mt-2 mt-md-0" style="background-color:rgb(83, 124, 129)">
+                                    <h6 class="card-title">Progress</h6>
+                                    <div class="display-6 shadow-text">84%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mb-4">
+                    <div class="col-12 col-lg-7">
+                        <div class="card border-0 mt-4 project-board" style="background-color:rgb(73, 72, 71)">
+                            <div class="card-body text-start">
+                                <h2 class="card-title">Budget Spending</h2>             
+                            </main>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <div class="card border-0 mt-4 pending-board" style="background-color:rgb(134, 96, 52)">
+                            <div class="card-body text-start">
+                                <h4 class="card-title">Other thing</h4>
+                                <ul style="list-style-type:none">
+                                    <!-- use jinja to display all ongoing projects, where the user has not submitted their input form for the current week -->
+                                    <!-- similarly to the sidebar, have these act as links to that project's form page -->
+                                    <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
+integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>

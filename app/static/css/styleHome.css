@@ -23,8 +23,8 @@
     min-height:100px;
 }
 
-.show-lg {
-    display: none
+.show-lg, .show-lg-tc, .comm-sm{
+    display: none;
 }
 
 .logo-image {
@@ -62,6 +62,11 @@ a:hover, button:hover {
     color:rgb(178, 205, 233)
 }
 
+@media (max-width: 1080px) and (min-width: 768px) {
+    .comm-bg { display:none }
+    .comm-sm { display:block }
+}
+
 @media (min-width: 992px) {
     .project-board, .pending-board { min-height:250px }
 }
@@ -70,5 +75,6 @@ a:hover, button:hover {
     .col-sidebar { width:250px; min-height:100vh }
     .col-main { width:calc(100% - 250px); min-height:100vh }
     .show-lg { display:block }
+    .show-lg-tc { display:table-cell }
     .logo-image { width:100px; height: 100px }
 }

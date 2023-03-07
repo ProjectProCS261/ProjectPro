@@ -18,10 +18,10 @@
     <ul style="list-style-type:none">
         <!-- use jinja to display all in-progress projects-->
         <!-- additionally, use jinja in the href attribute to link to that project's form page -->
-        <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
-        <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 2</a></li>
+        <li class="mt-2"><a href="/dataview"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
+        <li class="mt-2"><a href="/dataview"><i class="bi bi-hammer me-2"></i>Project 2</a></li>
     </ul>
-    <div class="pt-3 pb-1 mt-3" style="background-color:rgb(126, 88, 53)">
+    <div class="py-3 mt-3" style="background-color:rgb(126, 88, 53)">
         <a href="{{ url_for('add_project') }}">
             <button id="add-project-btn" class="btn text-white" type="submit">
                 <i class="bi bi-clipboard-plus me-2"></i>Create Project

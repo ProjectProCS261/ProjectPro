@@ -180,6 +180,11 @@ def logout():
 def input():
     return render_template('auth/input.html')
 
+@app.route('/dataview')
+# @login_required 
+def dataview():
+    return render_template('auth/projectData.html', name=current_user)
+
 @app.route('/home')
 @login_required
 def home():

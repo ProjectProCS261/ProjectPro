@@ -7,11 +7,7 @@
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link href="../static/css/styleHome.css" rel="stylesheet">
-    {% if name.is_authenticated %}
-      <title>{{ name.email }}'s PROJECTion</title>
-    {% else %}
-        <title>PROJECTion</title>
-    {% endif %}
+    <title>PROJECTion Dashboard</title>
 </head>
 <body>
 
@@ -50,34 +46,26 @@
                             <div class="card-body text-start">
                                 <h2 class="card-title">My Projects</h2>
                                 <table class="table text-white">
-                                  
                                   <tr>
                                     <th>Project Name</th>
-                                    <th>Client Name</th>
-                                    <th>Methodology</th>
-                                    <th>Budget</th>
-                                    <th>Owner</th>
-                                    <th>Start Date</th>
+                                    <th class="show-lg-tc">Client Name</th>
+                                    <th class="show-lg-tc">Owner</th>
                                     <th>Deadline</th>
+                                    <th>Status</th>
                                   </tr>
                                   <tbody>
                                     {% for project in projects %}
                                       <tr>
                                         <td>{{ project.Project_Name }}</td>
-                                        <td>{{ project.Client_Name }}</td>
-                                        <td>{{ project.Methodology }}</td>
-                                        <td>{{ project.Budget }}</td>
-                                        <td>{{ project.Owner }}</td>
-                                        <td>{{ project.Start_Date }}</td>
+                                        <td class="show-lg-tc">{{ project.Client_Name }}</td>
+                                        <td class="show-lg-tc">{{ project.Owner }}</td>
                                         <td>{{ project.Deadline }}</td>
-                                        <td><i class="bi bi-check-circle-fill me-2" style="color:rgb(63, 153, 63)"></i>Completed</td>
+                                        <!-- <td><i class="bi bi-check-circle-fill me-2" style="color:rgb(63, 153, 63)"></i>Completed</td> -->
                                         <td><i class="bi bi-slash-circle-fill me-2" style="color:rgb(196, 128, 52)"></i>In progress</td>
-                                        <td><i class="bi bi-dash-circle-fill me-2" style="color:rgb(145, 60, 48)"></i>On hold</span></td>
+                                        <!-- <td><i class="bi bi-dash-circle-fill me-2" style="color:rgb(145, 60, 48)"></i>On hold</span></td> -->
                                       </tr>
                                     {% endfor %}
                                 </table>
-                 
-                            </main>
                             </div>
                         </div>
                     </div>
@@ -88,7 +76,7 @@
                                 <ul style="list-style-type:none">
                                     <!-- use jinja to display all ongoing projects, where the user has not submitted their input form for the current week -->
                                     <!-- similarly to the sidebar, have these act as links to that project's form page -->
-                                    <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
+                                    <li class="mt-2"><a href="/dataview"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
                                 </ul>
                             </div>
                         </div>
