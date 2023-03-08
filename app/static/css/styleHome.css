@@ -95,3 +95,5 @@ a:hover, button:hover {
     .show-lg-tc { display:table-cell }
     .logo-image { width:100px; height: 100px }
 }
+
+.card-body { overflow-x: scroll; }
