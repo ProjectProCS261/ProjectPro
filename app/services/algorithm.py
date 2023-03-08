@@ -15,6 +15,55 @@ def runAlg(projectName, owner):
     # Load data to predict into a pandas DataFrame
     df = getProjectMetrics(projectID, projectName, owner)
 
+    # Train model
+    trainedAlg = trainAlg()
+    lr = trainedAlg[0]
+    methodsMatch = trainedAlg[3]
+
+    # Predict on new data
+    newData =  np.concatenate((df[1:6],methodsMatch.get(df[0]))).reshape(1,-1)
+    yPred = lr.predict(newData)
+    yPredNp = np.absolute(np.array(yPred))
+
+    # Ensure probabilities aren't greater than 1
+    lowMorale = min(yPredNp[0,0],1)
+    tooDifficult = min(yPredNp[0,1],1)
+    poorCommunication = min(yPredNp[0,2],1)
+
+    # Calculate weighted average 
+    initProbOfFailure =  (0.49 * lowMorale + 0.72 * tooDifficult +  0.57 * poorCommunication) / 1.78
+
+    # Calculate additional probabilities
+    onTrack = df[7]
+    progress = df[6]
+    overBudg = overBudget(projectName, owner)
+    wrongMethod = wrongMethodology(projectName, owner)
+    behind = behindSched(onTrack, progress)
+
+    # Alter probability based on additional metrics
+    initProbOfFailure = min(initProbOfFailure * overBudg * wrongMethod * behind,1)
+
+    # Get actual probability of a project failing because of behing behind schedule and not making enough progress
+    if behind >= 1:
+        progressProb = behind - 1
+    else:
+        progressProb = behind
+    # Get actual probability of a project going over budget
+    if overBudg >= 1:
+        budgetProb = overBudg - 1
+    else:
+        budgetProb = 0
+    # Get actual probability of a project failing because of having the wrong methodology for the team size 
+    if wrongMethod >= 1:
+        methodTeamProb = wrongMethod - 1
+    else:
+        methodTeamProb = wrongMethod
+
+    # Return list of probabilities
+    return [initProbOfFailure, lowMorale, tooDifficult, poorCommunication, progressProb, budgetProb, methodTeamProb]
+
+# Trains the linear regression model on the sample data 
+def trainAlg(): 
     # Get example data
     f = open("sampledata.json")
     sampleData = json.load(f)
@@ -47,48 +96,7 @@ def runAlg(projectName, owner):
     # Train a linear regression model
     lr = LinearRegression(fit_intercept=False)
     lr.fit(X_train, y_train)
-
-    # Predict on new data
-    newData =  np.concatenate((df[1:6],methodsMatch.get(df[0]))).reshape(1,-1)
-    yPred = lr.predict(newData)
-    yPredNp = np.absolute(np.array(yPred))
-
-    # Ensure probabilities aren't greater than 1
-    lowMorale = 0.49 * min(yPredNp[0,0],1)
-    tooDifficult = 0.72 * min(yPredNp[0,1],1)
-    poorCommunication = 0.57 * min(yPredNp[0,2],1)
-
-    # Calculate weighted average 
-    initProbOfFailure =  (lowMorale + tooDifficult +  poorCommunication) / 1.78
-
-    # Calculate additional probabilities
-    onTrack = df[7]
-    progress = df[6]
-    overBudg = overBudget(projectName, owner)
-    wrongMethod = wrongMethodology(projectName, owner)
-    behind = behindSched(onTrack, progress)
-
-    # Alter probability based on additional metrics
-    initProbOfFailure = min(initProbOfFailure * overBudg * wrongMethod * behind,1)
-
-    # Get actual probability of a project failing because of behing behind schedule and not making enough progress
-    if behind >= 1:
-        progressProb = behind - 1
-    else:
-        progressProb = behind
-    # Get actual probability of a project going over budget
-    if overBudg >= 1:
-        budgetProb = overBudg - 1
-    else:
-        budgetProb = 0
-    # Get actual probability of a project failing because of having the wrong methodology for the team size 
-    if wrongMethod >= 1:
-        methodTeamProb = wrongMethod - 1
-    else:
-        methodTeamProb = wrongMethod
-
-    # Return list of probabilities
-    return [initProbOfFailure, lowMorale, tooDifficult, poorCommunication, progressProb, budgetProb, methodTeamProb]
+    return (lr, X_test, y_test, methodsMatch)
 
 # Tests the algorithm using the test data and returns a score of accuracy (best possible score is 1)
 def testAlg(model, X_test, y_test, methodsMatch):
@@ -138,7 +146,7 @@ def overBudget(projectName, owner):
     start = project["StartDate"]
     end = project["Deadline"]
     days = abs(end-start).days
-    currentDate = datetime.today().date()
+    currentDate = datetime.today()
     currentDays = abs(currentDate-start).days
 
     # Calculate percentage of project completed
