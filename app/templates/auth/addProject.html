@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="static/css/style.css" />
 	</head>
-	<body id="formpage">
+	<body id="formAPpage">
           <div class="container2">
                <div class="formTitle"><span>Add Project</span></div>
                <form name='addProject' action='/addProject' method="POST">
@@ -31,8 +31,9 @@
                                    <option name="Extreme" value="Extreme">Extreme Programming</option>
                                    <option name="Scrum" value="Scrum">Scrum</option>
                               </select> -->
-                              <label for="methodology">Methodology:</label>
-                              <input type="text" name="methodology" required><br><br>
+                              <!-- <label for="methodology">Methodology:</label> -->
+                              <span class="info">Methodology</span>
+                              <input type="text" name="methodology" placeholder="Enter methodology" required>
 
                          </div>
                          <div class="inputbox">
@@ -40,17 +41,32 @@
                               <input name="budget" type="number" placeholder="Enter budget" min="0" step=".01" required>
                          </div>
 
+                         <div class="inputbox">
+                              <span class="info">Project Owner's Email:</span>
+                              <input id="owner" type="email" name="owner" placeholder="Enter project owner's email" required>
+                         </div>
+
+                         <div class="inputbox">
+                              <span class="info">Start Date:</span>
+                              <input id="start_date" type="date" name="start_date" required>
+                         </div>
+
+                         <div class="inputbox">
+                              <span class="info">Deadline:</span>
+                              <input id="deadline" type="date" name="deadline" required>
+                         </div>
+
                          <!-- <div class="inputbox">
                               <span class="info">Project Deadline</span>
                               <input type="date" id="date" name="date" required>
                          </div> -->
 
-                         <label for="owner">Owner Email:</label>
+                         <!-- <label for="owner">Owner Email:</label>
                          <input type="email" name="owner" required><br><br>
                          <label for="start_date">Start Date:</label>
                          <input type="date" name="start_date" required><br><br>
                          <label for="deadline">Deadline:</label>
-                         <input type="date" name="deadline" required><br><br>
+                         <input type="date" name="deadline" required><br><br> -->
                     </div>
 
                     <div class="row">  

@@ -103,6 +103,14 @@ a:hover {
      align-items: center;
 }
 
+#formAPpage {
+     background:rgba(255,219.64,187,1);
+     display: flex;
+     height: 120vh;
+     justify-content: center;
+     align-items: center;
+}
+
 .container2 {
      max-width: 700px;
      width: 100%;
