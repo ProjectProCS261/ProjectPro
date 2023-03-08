@@ -1,7 +1,4 @@
 from database import getDatabase
-from datetime import datetime 
-import numpy as np
-from datetime import datetime
 
 # Inserts a new project into the database and returns project id
 def insertProject(projectName, clientName, methodology, budget, owner, startDate, deadline):
@@ -127,7 +124,7 @@ def getProjectMetrics(projectID, projectName, owner):
     teamSize = getTeamSize(projectName, owner)
     
     # If no project metrics have been inputted yet, assume default values
-    metricCount = projectMetrics.count_documents( {'projectID' : projectID} )
+    metricCount = projectMetrics.count_documents( {'ProjectID' : projectID} )
     if metricCount == 0:
         avgMorale = 5
         avgDiff = 5
