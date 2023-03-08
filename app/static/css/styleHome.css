@@ -72,3 +72,5 @@ a:hover, button:hover {
     .show-lg { display:block }
     .logo-image { width:100px; height: 100px }
 }
+
+.card-body { overflow-x: scroll; }
