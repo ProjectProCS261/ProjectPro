@@ -148,19 +148,19 @@
                     <form action="" method="POST">
                          <div class="mb-3">
                            <label for="morale" class="form-label">How would you rate your morale while working on this project?</label>
-                           <input type="range" class="form-range" min="1" max="10" step="0.5" id="morale" value="5.5">
+                           <input type="range" name="morale" class="form-range" min="1" max="10" step="0.5" id="morale" value="5.5">
                          </div>
                          <div class="mb-3">
                            <label for="difficulty" class="form-label">How difficult are you finding this project?</label>
-                           <input type="range" class="form-range" min="1" max="10" step="0.5" id="difficulty" value="5.5">
+                           <input type="range" name="difficulty" class="form-range" min="1" max="10" step="0.5" id="difficulty" value="5.5">
                          </div>
                          <div class="mb-3">
                            <label for="communication" class="form-label">How would you rate the communication with your other team members?</label>
-                           <input type="range" class="form-range" min="1" max="10" step="0.5" id="communication" value="5.5">
+                           <input type="range" name="communication" class="form-range" min="1" max="10" step="0.5" id="communication" value="5.5">
                          </div>
                          <div class="mb-3">
                            <label for="progress" class="form-label">How would you rate your progress on this project?</label>
-                           <input type="range" class="form-range" min="1" max="10" step="0.5" id="progress" value="5.5">
+                           <input type="range" name="progress" class="form-range" min="1" max="10" step="0.5" id="progress" value="5.5">
                          </div>
 
                          <!-- EXTRA INPUTS FOR PROJECT OWNER -->
@@ -168,11 +168,11 @@
                          <!-- ON TRACK STATUS -->
                          <div class="mb-3">
                               <label for="projectstatus" class="form-label">How would you describe the current status of the project?</label>
-                              <input class="form-check-input" type="radio" name="behind" id="behind">
+                              <input class="form-check-input" type="radio" name="status" id="behind">
                               <label class="form-check-label" for="behind"> Behind Schedule </label>
-                              <input class="form-check-input" type="radio" name="ontrack" id="ontrack">
+                              <input class="form-check-input" type="radio" name="status" id="ontrack">
                               <label class="form-check-label" for="ontrack"> On Schedule </label>
-                              <input class="form-check-input" type="radio" name="ahead" id="ahead">
+                              <input class="form-check-input" type="radio" name="status" id="ahead">
                               <label class="form-check-label" for="ahead"> Ahead of Schedule </label>
                          </div>
 
