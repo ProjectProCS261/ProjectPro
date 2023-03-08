@@ -191,6 +191,8 @@ def home():
     project_ids = team_collection.find_one({"_id": team_id})["ProjectID"]
     projects = project_collection.find({"_id": {"$in": project_ids}})   
 
+    print(projects)
+
     return render_template('auth/home.html', name=current_user, projects=projects, user_email=user_email)
 
 @login_manager.user_loader
@@ -263,6 +265,7 @@ def add_project():
             {"$set": {"ProjectID": [projectID.inserted_id]}}
         )
         print("done")
+        flash("NEW PROJECT CREATED: {}".format(project_name))
         return redirect(url_for("home"))
 
     else:
