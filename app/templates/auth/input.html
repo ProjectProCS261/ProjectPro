@@ -122,26 +122,6 @@
 <body>
      <p></p>
      <div class="container">
-
-          <!-- CODE FOR THE PROJECT DETAILS BOX -->
-          <div class="card w-50 mx-auto box">
-               <div class="card-header text-center box">
-                    Project Name
-               </div>
-               <div class="card-body">
-                    <div class="row">
-                         <div class="col-md-6">
-                           <p>Client Name: John Doe</p>
-                           <p>Start Date: January 1, 2023</p>
-                         </div>
-                         <div class="col-md-6">
-                           <p>Project Deadline: June 30, 2023</p>
-                           <p>Project Status: In Progress</p>
-                         </div>
-                    </div>
-               </div>
-          </div>
-          <p></p>
           <div class="row">
                <div class="col-md-12 box">
                     <div class="row">
@@ -183,17 +163,54 @@
                            <input type="range" class="form-range" min="1" max="10" step="0.5" id="progress" value="5.5">
                          </div>
 
+                         <!-- EXTRA INPUTS FOR PROJECT OWNER -->
+
+                         <!-- ON TRACK STATUS -->
+                         <div class="mb-3">
+                              <label for="projectstatus" class="form-label">How would you describe the current status of the project?</label>
+                              <input class="form-check-input" type="radio" name="behind" id="behind">
+                              <label class="form-check-label" for="behind"> Behind Schedule </label>
+                              <input class="form-check-input" type="radio" name="ontrack" id="ontrack">
+                              <label class="form-check-label" for="ontrack"> On Schedule </label>
+                              <input class="form-check-input" type="radio" name="ahead" id="ahead">
+                              <label class="form-check-label" for="ahead"> Ahead of Schedule </label>
+                         </div>
+
+                         <!-- INPUT EXPENSES -->
+                         <div class="mb-3">
+                              <label for="budget" class="form-label">Project Expenses (if relevant):</label>
+                              <div class="form-group row expense-row">
+                                   <div class="col-sm-5">
+                                        <input type="text" class="form-control expense-name" placeholder="Description" id="description">
+                                   </div>
+                                   <div class="col-sm-4">
+                                        <input type="number" min="0" class="form-control expense-amount" placeholder="Amount (£)" id="amount"><br>
+                                   </div>
+                                   <div class="col-sm-2">
+                                        <button type="button" class="btn btn-danger remove-btn">Delete</button>
+                                   </div>
+                              </div>
+
+                              <div class="form-group row">
+                                   <div class="col-sm-6 text-right">
+                                        <button type="button" class="btn btn-success add-btn">Add Expenses</button><br>
+                                   </div>
+                              </div>
+                         </div>
+
+                    <!-- SUBMIT AND CLEAR ALL BUTTON  -->
                          <div class="mb-3 text-center">
                               <input type="submit" value="Submit" class="button">
                          </div>
                          <button id="clearbtn" type="button" class="btn btn-primary" onclick="resetSlider()">Clear All</button>
+
                     </form>
                </div>
           </div>
      </div>
 
- 
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script>
           function resetSlider() {
                var sliders = document.querySelectorAll('input[type="range"]');
@@ -201,6 +218,31 @@
                slider.value = '5.5';
                });
           }
+
+          $(document).ready(function() {
+          // Add new expense input fields
+               $(document).on('click','.add-btn',function() {
+                    var newRow = '<div class="form-group row expense-row">' +
+                                   '<div class="col-sm-5">' +
+                                   '<input type="text" class="form-control expense-name" placeholder="Description" id="description">' +
+                                   '</div>' +
+                                   '<div class="col-sm-4">' +
+                                   '<input type="number" min="0" class="form-control expense-amount" placeholder="Amount (£)" id="amount">' + '<br>' +
+                                   '</div>' +
+                                   '<div class="col-sm-2">' +
+                                   '<button type="button" class="btn btn-danger remove-btn">Delete</button>' +
+                                   '</div>' +
+                                   '</div>';
+                    $(this).closest('form').find('.expense-row:last').after(newRow);
+               });
+  
+          // Remove expense input fields
+               $(document).on('click', '.remove-btn', function() {
+                    if ($(this).closest('form').find('.expense-row').length > 1) {
+                         $(this).closest('.expense-row').remove();
+                    }
+               });
+          });
      </script>
 </body>
 </html>

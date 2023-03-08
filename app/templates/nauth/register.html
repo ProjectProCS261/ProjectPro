@@ -17,11 +17,11 @@
                          </div>
                          <div class="inputbox">
                               <span class="info">Password</span>
-                              <input id="password" name="password" type="password" placeholder="Enter your password" required>
+                              <input class="password" id="password" name="password" type="password" placeholder="Enter your password" required>
                          </div>
                          <div class="inputbox">
                               <span class="info">Confirm Password</span>
-                              <input id="confirm_password" name="confirm_password" type="password" placeholder="Confirm your password" required>
+                              <input class="confirm_password" id="confirm_password" name="confirm_password" type="password" placeholder="Confirm your password" required>
                          </div>
                     </div><br>
                    
@@ -35,5 +35,17 @@
                     </div>
                </form>
           </div>
+
+          <script>
+               document.querySelector('.button').onclick = function() {
+                    var password = document.querySelector('.password').value,
+                    confirmPassword = document.querySelector('.confirm_password').value;
+          
+                    if (password != confirmPassword) {
+                         alert("Password did not match. Try again.");
+                         return false;
+                    } 
+               }
+          </script>
 	</body>
 </html>
