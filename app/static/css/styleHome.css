@@ -15,12 +15,20 @@
     float:left;
     width:100%;  }
 
-.project-board {
+.lg-board {
     min-height:200px;
 }
 
-.pending-board {
+.sm-board {
     min-height:100px;
+}
+
+.data-board {
+    min-height:100px;
+}
+
+.progress-bar {
+    transform: rotate(180deg);
 }
 
 .show-lg, .show-lg-tc, .comm-sm{
@@ -41,17 +49,25 @@
     width:200px;
 }
 
+#logout-btn:hover {
+    background-color:rgb(47, 46, 46);
+}
+
 #add-project-btn {
     background-color:rgb(79, 85, 64);
     width:200px;
 }
 
-#logout-btn:hover {
-    background-color:rgb(47, 46, 46);
-}
-
 #add-project-btn:hover {
     background-color:rgb(57, 75, 60);
+}
+
+#remove-btn {
+    background-color:rgb(94, 47, 47);
+}
+
+#remove-btn:hover {
+    background-color:rgb(54, 27, 26);
 }
 
 a, button {
@@ -68,7 +84,8 @@ a:hover, button:hover {
 }
 
 @media (min-width: 992px) {
-    .project-board, .pending-board { min-height:250px }
+    .lg-board, .sm-board { min-height:250px }
+    .data-board { min-height:220px }
 }
 
 @media (min-width: 768px) {
