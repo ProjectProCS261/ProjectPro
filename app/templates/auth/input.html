@@ -165,14 +165,15 @@
 
                          <!-- EXTRA INPUTS FOR PROJECT OWNER -->
 
+                         {% if owner %}
                          <!-- ON TRACK STATUS -->
                          <div class="mb-3">
                               <label for="projectstatus" class="form-label">How would you describe the current status of the project?</label>
-                              <input class="form-check-input" type="radio" name="status" id="behind">
+                              <input class="form-check-input" type="radio" name="status" id="behind" value="behind">
                               <label class="form-check-label" for="behind"> Behind Schedule </label>&nbsp;&nbsp;&nbsp;
-                              <input class="form-check-input" type="radio" name="status" id="ontrack">
-                              <label class="form-check-label" for="ontrack"> On Schedule </label>&nbsp;&nbsp;&nbsp;
-                              <input class="form-check-input" type="radio" name="status" id="ahead">
+                              <input class="form-check-input" type="radio" name="status" id="ontrack" checked value="ontrack">  
+                              <label class="form-check-label" for="ontrack" checked> On Schedule </label>&nbsp;&nbsp;&nbsp;
+                              <input class="form-check-input" type="radio" name="status" id="ahead" value="ontrack">
                               <label class="form-check-label" for="ahead"> Ahead of Schedule </label>
                          </div>
 
@@ -184,9 +185,9 @@
                                         <input type="text" class="form-control expense-name" placeholder="Description" id="description">
                                    </div>
                                    <div class="col-sm-4">
-                                        <input type="number" min="0" class="form-control expense-amount" placeholder="Amount (£)" id="amount"><br>
+                                        <input name="expenses" type="number" min="0" class="form-control expense-amount" placeholder="Amount (£)" id="amount"><br>
                                    </div>
-                                   <div class="col-sm-2">
+                                   <!-- <div class="col-sm-2">
                                         <button type="button" class="btn btn-danger remove-btn">Delete</button>
                                    </div>
                               </div>
@@ -195,19 +196,22 @@
                                    <div class="col-sm-6 text-right">
                                         <button type="button" class="btn btn-success add-btn">Add Expenses</button><br>
                                    </div>
-                              </div>
+                              </div> -->
                          </div>
 
                          <div class="mb-3">
                               <label for="completion" class="form-label">Is the project completed?</label>
-                              <input class="form-check-input" type="radio" name="completion" id="Yes">
+                              <input class="form-check-input" type="radio" name="completion" id="Yes" value="yes">
                               <label class="form-check-label" for="completion"> Yes </label>&nbsp;&nbsp;&nbsp;
-                              <input class="form-check-input" type="radio" name="completion" id="No">
-                              <label class="form-check-label" for="completion"> No</label>
+                              <input class="form-check-input" type="radio" name="completion" id="No" value="no" checked>
+                              <label class="form-check-label" for="completion" checked> No</label>
                          </div>
+                    {% endif %}
 
                     <!-- SUBMIT AND CLEAR ALL BUTTON  -->
                          <div class="mb-3 text-center">
+                              <input type="hidden" name="owner" value="{{ owner }}" />
+                              <input type="hidden" name="projectID" value="{{ projectID }}" />
                               <input type="submit" value="Submit" class="button">
                          </div>
                          <button id="clearbtn" type="button" class="btn btn-primary" onclick="resetSlider()">Clear All</button>

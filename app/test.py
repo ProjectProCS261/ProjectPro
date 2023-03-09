@@ -1,25 +1,23 @@
 from flask import Flask, flash, jsonify, render_template, request, redirect, session, url_for
 from flask_login import login_user, LoginManager, logout_user, current_user, login_required, UserMixin
-
-import sys
-import os
-SCRIPT_DIR = os.path.dirname(os.path.abspath('..app'))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from bson.objectid import ObjectId
-from app.services.database import getDatabase
+from .services.database import getDatabase
+from .services.project import getProject, getProjectID, insertProject, insertTeam
+import pymongo
 
 import werkzeug
-from datetime import date,datetime 
+from datetime import date
+from markupsafe import escape
 
 from app import app
 
+from datetime import datetime 
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 # Connect to the MongoDB database
-db = getDatabase()
+client = pymongo.MongoClient("mongodb+srv://Brian:Kdh010315@cluster0.qmtgd2o.mongodb.net/test")
+db = client["cs261"]
 users = db["USER"]
 project_collection = db["PROJECT"]
 user_team_collection = db["USER_TEAM"]
@@ -109,22 +107,45 @@ def home():
     try:
         user_email = current_user.email
         user_team = user_team_collection.find({"User_Email": user_email})
+        print("\n\n USER TEAM: {}\n".format(user_team))
+
         projects = []
         
         for userT in user_team:
+            print("\n-----------------------\n")
+            print("\n\n USER TEAM: {}\n".format(userT))
             team_id = userT["TeamID"]
+
             team = team_collection.find_one({"_id": team_id})
+            print("\n\n TEAMS: {}\n".format(team))
             project_id = team.get("ProjectID", [])[0]
+            print("\n\n PROJECT IDS: {}\n".format(project_id))
             project = project_collection.find_one({"_id": project_id})
+            print("\n\n PROJECT : {}\n".format(project))
             projects.append(project)
     except:
         projects = []
 
     return render_template('auth/home.html', name=current_user, projects=projects, pending=projects, user_email=user_email)
 
+@login_manager.user_loader
+def load_user(useremail):
+    userdata = users.find_one({'email': useremail})
+    print(userdata)
+    if userdata:
+        return User(userdata['email'])
+    else:
+        return None
+
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    return redirect(url_for('index'))
+
 @app.route("/addProject", methods=["GET", "POST"])
 def add_project():
+    print("start")
     if request.method == "POST":
+        print("POSTED")
         # Get the form data submitted by the user
         project_name = request.form["project_name"]
         client_name = request.form["client_name"]
@@ -139,11 +160,10 @@ def add_project():
             "Project_Name": project_name,
             "Client_Name": client_name,
             "Methodology": methodology,
-            "Budget": int(budget),
+            "Budget": budget,
             "Owner_Email": owner,
             "Start_Date": start_date,
-            "Deadline": deadline,
-            "Completed": False
+            "Deadline": deadline
         }
 
         # Insert the project document into the projects collection
@@ -163,8 +183,12 @@ def add_project():
         # Get the email of the logged in user
         user_email = current_user.email
 
+        print("USER EMAIL: {}\n".format(user_email))
+
         # Find the team ID associated with the logged in user
         user_team = user_team_collection.find_one({"User_Email": user_email})
+
+        print("USER TEAM: {}\n".format(user_team))
 
         # Add the project ID to the team's list of project IDs
         team_id = user_team["TeamID"]
@@ -173,79 +197,10 @@ def add_project():
             {"_id": team_id},
             {"$set": {"ProjectID": [projectID.inserted_id]}}
         )
+        print("done")
+        flash("NEW PROJECT CREATED: {}".format(project_name))
         return redirect(url_for("home"))
+
     else:
+        print("poooo")
         return render_template("auth/addProject.html")
-
-@app.route('/review', methods=["GET", "POST"])
-@login_required
-def review():
-    if request.method == "POST":
-        # Get the form data submitted by the user
-        projectID = request.form["projectID"]
-        owner = request.form["owner"]
-        morale = request.form["morale"]
-        difficulty = request.form["difficulty"]
-        communication = request.form["communication"]
-        date = datetime.now().strftime('%d/%m/%Y')
-        user = current_user.email
-        progress = request.form["progress"]
-        status = True
-        expenses = "0"
-        if owner == "True":
-            status = request.form["status"]
-            if status == "ontrack":
-                status = True
-            expenses = "0"+request.form["expenses"]
-            completion = request.form["completion"]
-            if completion == "yes":
-                project_collection.find_one_and_update({"projectID": ObjectId(projectID)}, {"Completed": True})
-
-        # Create a new metrics entry with the form data
-        project_metrics = {
-            "ProjectID": projectID,
-            "MoraleRating": morale,
-            "DifficultyRating": difficulty,
-            "CommunicationRating": communication,
-            "Progress": progress,
-            "On_Track": status,
-            "date": date,
-            "expenses": int(expenses),
-            "user": user
-        }
-        print(project_metrics)
-
-        # metrics_collection.insert_one(project_metrics)
-        return redirect(url_for('home'))
-
-    else:
-        projectID = request.args.get('projectID')
-        current_project = project_collection.find_one({"_id": ObjectId(projectID)})
-        owner = False
-        if current_project['Owner_Email'] == current_user.email:
-            owner = True
-        return render_template("auth/input.html", owner=owner, projectID=projectID)
-
-@login_manager.user_loader
-def load_user(useremail):
-    userdata = users.find_one({'email': useremail})
-    if userdata:
-        return User(userdata['email'])
-    else:
-        return None
-
-@login_manager.unauthorized_handler
-def unauthorized_handler():
-    return redirect(url_for('index'))
-
-@login_manager.user_loader
-def load_user(useremail):
-    userdata = users.find_one({'email': useremail})
-    if userdata:
-        return User(userdata['email'])
-    else:
-        return None
-
-@login_manager.unauthorized_handler
-def unauthorized_handler():
-    return redirect(url_for('index'))
