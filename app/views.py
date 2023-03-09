@@ -175,12 +175,12 @@ def logout():
 
 
 @app.route('/input')
-# @login_required 
+@login_required 
 def input():
     return render_template('auth/input.html', name=current_user)
 
 @app.route('/dataview')
-# @login_required 
+@login_required 
 def dataview():
     return render_template('auth/projectData.html', name=current_user)
 
