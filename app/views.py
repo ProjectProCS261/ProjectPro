@@ -183,15 +183,29 @@ def input():
 @login_required
 def home():
 
-    user_email = current_user.email
+    # user_email = current_user.email
 
-    user_team = user_team_collection.find_one({"User_Email": user_email})
-    team_id = user_team["TeamID"]
+    # user_team = user_team_collection.find_one({"User_Email": user_email})
+    # team_id = user_team["TeamID"]
 
-    project_ids = team_collection.find_one({"_id": team_id})["ProjectID"]
-    projects = project_collection.find({"_id": {"$in": project_ids}})   
+    # project_ids = team_collection.find_one({"_id": team_id})["ProjectID"]
+    # projects = project_collection.find({"_id": {"$in": project_ids}})   
 
-    print(projects)
+    try:
+        user_email = current_user.email
+        user_team = user_team_collection.find_one({"User_Email": user_email})
+        team_id = user_team["TeamID"]
+
+        project_ids = team_collection.find_one({"_id": team_id})["ProjectID"]
+        projects = []
+        for project_id in project_ids:
+            project = project_collection.find_one({"_id": project_id})
+            if project:
+                projects.append(project)
+
+            print("\n\nPROJ: {}\n".format(projects))
+    except:
+        projects = []
 
     return render_template('auth/home.html', name=current_user, projects=projects, user_email=user_email)
 
