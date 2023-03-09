@@ -13,7 +13,7 @@ def insertProject(projectName, clientName, methodology, budget, owner, startDate
         'Methodology' : methodology,
         'Budget' : budget,
         'Owner_Email' : owner,
-        'StartDate' : startDate,
+        'Start_Date' : startDate,
         'Deadline' : deadline
     })
 
@@ -116,7 +116,7 @@ def getProjectMetrics(projectID, projectName, owner):
     # Get methodology 
     methodology = projectData['Methodology']
 
-    start = projectData["StartDate"]
+    start = projectData["Start_Date"]
     end = projectData["Deadline"]
     days = abs(end-start).days
     months = days / (365/12)

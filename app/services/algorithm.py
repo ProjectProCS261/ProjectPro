@@ -80,7 +80,7 @@ def trainAlg():
     # Encode categorical data
     le = preprocessing.LabelEncoder()
     methodologies = X_train[:,0]
-    methods = np.array(["Waterfall", "Scrum", "Agile", "Lean", "Feature-Driven", "Extreme Programming"])
+    methods = np.array(["Waterfall", "Scrum", "Agile", "Lean", "Feature-Driven", "Extreme-Programming"])
     methodsEnc = (pd.get_dummies(methods)).values.tolist()
     methodsMatch = dict(zip(methods, methodsEnc))
 
@@ -143,7 +143,7 @@ def behindSched(onTrack, progress):
 def overBudget(projectName, owner):
     # Calculate total number of weeks 
     project = getProject(projectName, owner)
-    start = project["StartDate"]
+    start = project["Start_Date"]
     end = project["Deadline"]
     days = abs(end-start).days
     currentDate = datetime.today()
@@ -205,7 +205,7 @@ def wrongMethodology(projectName, owner):
             relativeSize = teamSize - 5 / teamSize
         else:
             relativeSize = (3 - teamSize) / 3
-    elif methodology == "Extreme Programming" and teamSize > 12 or teamSize < 2:
+    elif methodology == "Extreme-Programming" and teamSize > 12 or teamSize < 2:
         badSize = True
         if teamSize > 12:
             relativeSize = teamSize - 12 / teamSize
