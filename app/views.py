@@ -103,6 +103,11 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.route('/dataview')
+@login_required 
+def dataview():
+    return render_template('auth/projectData.html', name=current_user)
+    
 @app.route('/home')
 @login_required
 def home():
@@ -179,7 +184,8 @@ def add_project():
         )
         return redirect(url_for("home"))
     else:
-        return render_template("auth/addProject.html")
+        return render_template("auth/addProject.html", name=current_user)
+
 
 @app.route('/review', methods=["GET", "POST"])
 @login_required

@@ -84,13 +84,13 @@
      text-align: center;
 }
 
-a:link, a:visited {
+.login-link:link, .login-link:visited {
      text-decoration: underline;
      color:rgb(148, 73, 8);
      font-weight: 500;
 }
 
-a:hover {
+.login-link:hover {
      text-decoration:underline;
      color:rgb(107, 52, 5);
 }
@@ -104,7 +104,7 @@ a:hover {
 }
 
 #formAPpage {
-     background:rgba(255,219.64,187,1);
+     background:rgb(51, 50, 50);
      display: flex;
      height: 120vh;
      justify-content: center;

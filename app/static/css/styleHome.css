@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: 'Poppins', sans-serif;
+}
+
 .col-sidebar {
     position:relative;
     min-height:1px;
@@ -15,16 +23,24 @@
     float:left;
     width:100%;  }
 
-.project-board {
+.lg-board {
     min-height:200px;
 }
 
-.pending-board {
+.sm-board {
     min-height:100px;
 }
 
-.show-lg {
-    display: none
+.data-board {
+    min-height:100px;
+}
+
+.progress-bar {
+    transform: rotate(180deg);
+}
+
+.show-lg, .show-lg-tc, .comm-sm{
+    display: none;
 }
 
 .logo-image {
@@ -41,17 +57,36 @@
     width:200px;
 }
 
-#add-project-btn {
-    background-color:rgb(79, 85, 64);
-    width:200px;
-}
-
 #logout-btn:hover {
     background-color:rgb(47, 46, 46);
 }
 
-#add-project-btn:hover {
-    background-color:rgb(57, 75, 60);
+#add-project-btn {
+    width:200px;
+}
+
+.red-btn {
+    background-color:rgb(94, 47, 47);
+}
+
+.red-btn:hover {
+    background-color:rgb(54, 27, 26);
+}
+
+.purple-btn {
+    background-color:rgb(94, 47, 80);
+}
+
+.purple-btn:hover {
+    background-color:rgb(54, 26, 42);
+}
+
+.green-btn {
+    background-color:rgb(63, 110, 71);
+}
+
+.green-btn:hover {
+    background-color:rgb(32, 61, 39);
 }
 
 a, button {
@@ -60,6 +95,11 @@ a, button {
 
 a:hover, button:hover {
     color:rgb(178, 205, 233)
+}
+
+@media (max-width: 1200px) and (min-width: 768px) {
+    .comm-bg { display:none }
+    .comm-sm { display:block }
 }
 
 .notification {
@@ -79,14 +119,14 @@ a:hover, button:hover {
 }
 
 @media (min-width: 992px) {
-    .project-board, .pending-board { min-height:250px }
+    .lg-board, .sm-board { min-height:250px }
+    .data-board { min-height:220px }
 }
 
 @media (min-width: 768px) {
     .col-sidebar { width:250px; min-height:100vh }
     .col-main { width:calc(100% - 250px); min-height:100vh }
     .show-lg { display:block }
+    .show-lg-tc { display:table-cell }
     .logo-image { width:100px; height: 100px }
 }
-
-.card-body { overflow-x: scroll; }
