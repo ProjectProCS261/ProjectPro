@@ -192,18 +192,43 @@ def home():
     # projects = project_collection.find({"_id": {"$in": project_ids}})   
 
     try:
+        # user_email = current_user.email
+        # user_team = user_team_collection.find_one({"User_Email": user_email})
+        # team_id = user_team["TeamID"]
+
+        # project_ids = team_collection.find_one({"_id": team_id})["ProjectID"]
+        # projects = []
+        # for project_id in project_ids:
+        #     project = project_collection.find_one({"_id": project_id})
+        #     if project:
+        #         projects.append(project)
+
         user_email = current_user.email
-        user_team = user_team_collection.find_one({"User_Email": user_email})
-        team_id = user_team["TeamID"]
+        user_team = user_team_collection.find({"User_Email": user_email})
+        print("\n\n USER TEAM: {}\n".format(user_team))
 
-        project_ids = team_collection.find_one({"_id": team_id})["ProjectID"]
         projects = []
-        for project_id in project_ids:
-            project = project_collection.find_one({"_id": project_id})
-            if project:
-                projects.append(project)
+        
+        for userT in user_team:
+            print("\n-----------------------\n")
+            print("\n\n USER TEAM: {}\n".format(userT))
+            team_id = userT["TeamID"]
 
-            print("\n\nPROJ: {}\n".format(projects))
+            team = team_collection.find_one({"_id": team_id})
+            print("\n\n TEAMS: {}\n".format(team))
+            project_id = team.get("ProjectID", [])[0]
+            print("\n\n PROJECT IDS: {}\n".format(project_id))
+            project = project_collection.find_one({"_id": project_id})
+            print("\n\n PROJECT : {}\n".format(project))
+            projects.append(project)
+
+            # for project_id in project_ids:
+            #     project = project_collection.find_one({"_id": project_id})
+            #     if project:
+            #         print("\n\nPROJ: {}\n".format(project))
+            #         projects.append(project)
+
+            # print("\n\nPROJ: {}\n".format(projects))
     except:
         projects = []
 
