@@ -18,8 +18,9 @@
     <ul style="list-style-type:none">
         <!-- use jinja to display all in-progress projects-->
         <!-- additionally, use jinja in the href attribute to link to that project's form page -->
-        <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
-        <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>Project 2</a></li>
+        {% for project in inprogress %}
+        <li class="mt-2"><a href="#"><i class="bi bi-hammer me-2"></i>{{ project.Project_Name }}</a></li>
+        {% endfor %}
     </ul>
     <div class="pt-3 pb-1 mt-3" style="background-color:rgb(126, 88, 53)">
         <a href="{{ url_for('add_project') }}">

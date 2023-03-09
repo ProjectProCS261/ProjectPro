@@ -110,17 +110,21 @@ def home():
         user_email = current_user.email
         user_team = user_team_collection.find({"User_Email": user_email})
         projects = []
+        inprogress = []
         
         for userT in user_team:
             team_id = userT["TeamID"]
             team = team_collection.find_one({"_id": team_id})
-            project_id = team.get("ProjectID", [])[0]
+            project_id = team["ProjectID"][0]
             project = project_collection.find_one({"_id": project_id})
+            if project["Completed"] == False:
+                inprogress.append(project)
             projects.append(project)
+
     except:
         projects = []
 
-    return render_template('auth/home.html', name=current_user, projects=projects, pending=projects, user_email=user_email)
+    return render_template('auth/home.html', name=current_user, projects=projects, inprogress=inprogress, pending=projects, user_email=user_email)
 
 @app.route("/addProject", methods=["GET", "POST"])
 def add_project():
@@ -209,9 +213,9 @@ def review():
             "CommunicationRating": communication,
             "Progress": progress,
             "On_Track": status,
-            "date": date,
-            "expenses": int(expenses),
-            "user": user
+            "Expenses": int(expenses),
+            "Date": date,
+            "User": user
         }
         print(project_metrics)
 
