@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link href="../static/css/styleHome.css" rel="stylesheet">
     <title>PROJECTion Dashboard</title>
+	{% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="notification">
+              {{ message }}</a>
+          </div>
+          <br>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 </head>
 <body>
 
@@ -43,7 +53,7 @@
                 <div class="row justify-content-center mb-4">
                     <div class="col-12 col-lg-7">
                         <div class="card border-0 mt-4 lg-board" style="background-color:rgb(73, 72, 71)">
-                            <div class="card-body text-start">
+                            <div class="card-body text-start" style="overflow-x: scroll">
                                 <h2 class="card-title">My Projects</h2>
                                 <table class="table text-white">
                                   <tr>
@@ -76,7 +86,7 @@
                                 <ul style="list-style-type:none">
                                     <!-- use jinja to display all ongoing projects, where the user has not submitted their input form for the current week -->
                                     <!-- similarly to the sidebar, have these act as links to that project's form page -->
-                                    <li class="mt-2"><a href="/dataview"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
+                                    <li class="mt-2"><a href="/input"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
                                 </ul>
                             </div>
                         </div>

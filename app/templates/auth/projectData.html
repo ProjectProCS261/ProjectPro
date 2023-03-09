@@ -53,7 +53,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Failure Estimation</h4>
                                 <div class="row justify-content-center">
-                                    <div class="col-6 card border-0 py-3" style="background-color:rgb(158, 110, 106)">
+                                    <div class="col-8 card border-0 py-3" style="background-color:rgb(158, 110, 106)">
                                         <div style="text-align:center">
                                             <div class="display-3 shadow-text" style="text-align:center"><strong>83%</strong></div>
                                             failure chance
@@ -83,35 +83,48 @@
                     
                     <div class="col-12 col-lg-7">
                         <div class="card border-0 mt-4 data-board" style="background-color:rgb(68, 90, 110)">
-                            <div class="card-body">
+                            <div class="card-body " style="overflow-x: scroll">
                                 <h4 class="card-title">Team Members</h2>
                                     <table class="table text-white">
                                         <tr>
-                                          <th>Name</th>
+                                          <th>Email</th>
                                           <th>Form Submitted</th>
                                           <th></th>
                                         </tr>
                                         <tbody>
                                             <tr>
-                                                <td>Johnny Hardhatson</td>
-                                                <td><i class="bi bi-file-earmark-check me-2" style="color:rgb(61, 207, 61)"></i>Done</td>
+                                                <td>johnnyhardhatson@gmail.com</td>
+                                                <td><i class="bi bi-file-earmark-check me-1" style="color:rgb(61, 207, 61)"></i>Done</td>
                                                 <td>
                                                     <form>
-                                                        <button id="remove-btn" class="btn text-white" type="submit">Remove</button>
+                                                        <button class="btn text-white red-btn" type="submit">Remove</button>
                                                     </form>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Timmy Mudhands</td>
-                                                <td><i class="bi bi-file-earmark me-2" style="color:rgb(207, 156, 61)"></i>Pending</td>
+                                                <td>timmymudhands@outlook.com</td>
+                                                <td><i class="bi bi-file-earmark me-1" style="color:rgb(207, 156, 61)"></i>Pending</td>
                                                 <td>
+                                                    <!-- <form name="removeMember action="/removemember" method="POST"> -->
                                                     <form>
-                                                        <button id="remove-btn" class="btn text-white" type="submit">Remove</button>
+                                                        <!-- <input type="hidden" name="remove-email" value="[use jinja to insert email here]"-->
+                                                        <button class="btn text-white red-btn" type="submit">Remove</button>
                                                     </form>
                                                 </td>
                                             </tr>
                                         </tbody>
-                                      </table>
+                                    </table>
+                                    <div class="row justify-content-center">
+                                        <div class="col-11 card border-0 py-3" style="background-color:rgb(106, 158, 154)">
+                                            Add new member
+                                            <!-- <form name="addMember" action="/addmember" method="POST"> -->
+                                            <form>
+                                                <input type="text" name="new-email" placeholder="Team member's email" required>
+                                                <button class="btn text-white green-btn" type="submit" style="float:right">Add</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
                             </div>
                         </div>
                     </div>
@@ -119,7 +132,28 @@
                         <div class="card border-0 mt-4 data-board" style="background-color:rgb(112, 59, 75)">
                             <div class="card-body ">
                                 <h4 class="card-title">Project Overview</h4>
-                                basic project data: start date, deadline, status, client, methodology
+                                <table class="table table-sm text-white">
+                                    <tr>
+                                        <td><strong>Client:</strong></td>
+                                        <td>[client]</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Status:</strong></td>
+                                        <td>[status]</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Methodology:</strong></td>
+                                        <td>[methodology]</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Start date:</strong></td>
+                                        <td>[startdate]</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Deadline:</strong></td>
+                                        <td>[deadline]</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>

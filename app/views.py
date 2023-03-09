@@ -92,6 +92,9 @@ login_manager.init_app(app)
 client = pymongo.MongoClient("mongodb+srv://Brian:Kdh010315@cluster0.qmtgd2o.mongodb.net/test")
 db = client["cs261"]
 users = db["USER"]
+project_collection = db["PROJECT"]
+user_team_collection = db["USER_TEAM"]
+team_collection = db["TEAM"]
 
 # User class for use by Flask-Login 
 class User(UserMixin):
@@ -170,15 +173,11 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# @app.route('/addproject')
-# @login_required 
-# def addProject():
-#     return render_template('auth/addProject.html')
 
 @app.route('/input')
 # @login_required 
 def input():
-    return render_template('auth/input.html')
+    return render_template('auth/input.html', name=current_user)
 
 @app.route('/dataview')
 # @login_required 
@@ -188,61 +187,55 @@ def dataview():
 @app.route('/home')
 @login_required
 def home():
-    # project_collection = db['PROJECT']
-    # user_team_collection = db['USER_TEAM']
-    # team_collection = db['TEAM']
 
-    # print("\n current user email: {}\n".format(current_user.email))
+    # user_email = current_user.email
 
-    # # Get the email of the logged in user
-    user_email = User.find_by_email(current_user.email)
+    # user_team = user_team_collection.find_one({"User_Email": user_email})
+    # team_id = user_team["TeamID"]
 
-    # print("user email: {}\n".format(user_email))
+    # project_ids = team_collection.find_one({"_id": team_id})["ProjectID"]
+    # projects = project_collection.find({"_id": {"$in": project_ids}})   
 
-    # insertProject("pee", "Bank", "SCRUM", 100, "zainmobarik03@gmail.com", "10-01-2003", "10-01-2004")
+    try:
+        # user_email = current_user.email
+        # user_team = user_team_collection.find_one({"User_Email": user_email})
+        # team_id = user_team["TeamID"]
 
-    # # # 1. Query the user_team collection to get the team IDs that the user is associated with
-    # user_teams = user_team_collection.find({'User_Email': current_user.email})
+        # project_ids = team_collection.find_one({"_id": team_id})["ProjectID"]
+        # projects = []
+        # for project_id in project_ids:
+        #     project = project_collection.find_one({"_id": project_id})
+        #     if project:
+        #         projects.append(project)
 
-    # print("user teams: {}\n".format(user_teams))
+        user_email = current_user.email
+        user_team = user_team_collection.find({"User_Email": user_email})
+        print("\n\n USER TEAM: {}\n".format(user_team))
 
-    # # team_ids = [ut['TeamID'] for ut in user_teams]
-
-
-    # # Initialize an empty list to store project IDs
-    # project_ids = []
-
-    # # Loop over each user_team document and extract the team ID
-    # for user_team in user_teams:
-    #     team_id = user_team['TeamID']
-
-    #     print("teams ids: {}\n".format(team_id))
+        projects = []
         
-    #     # 2. Query the team collection to get the project IDs associated with this team ID
-    #     team_projects = team_collection.find_one({'_id': team_id})
+        for userT in user_team:
+            print("\n-----------------------\n")
+            print("\n\n USER TEAM: {}\n".format(userT))
+            team_id = userT["TeamID"]
 
-    #     print("teams projects: {}\n".format(team_projects))
+            team = team_collection.find_one({"_id": team_id})
+            print("\n\n TEAMS: {}\n".format(team))
+            project_id = team.get("ProjectID", [])[0]
+            print("\n\n PROJECT IDS: {}\n".format(project_id))
+            project = project_collection.find_one({"_id": project_id})
+            print("\n\n PROJECT : {}\n".format(project))
+            projects.append(project)
 
-    #     projIDs = [team_projects['ProjectID']]
+            # for project_id in project_ids:
+            #     project = project_collection.find_one({"_id": project_id})
+            #     if project:
+            #         print("\n\nPROJ: {}\n".format(project))
+            #         projects.append(project)
 
-    #     print("proj ids: {}\n".format(projIDs))
-
-    #     project_ids.extend(projIDs)
-
-
-    #     # 3. Query the project collection to get the project documents corresponding to those project IDs
-    #     user_projects = project_collection.find({'_id': {'$in': project_ids}})
-
-    # print("project ids: {}\n".format(project_ids))
-    # print("user projects: {}\n".format(user_projects))
-
-    # # 4. Extract the project_name field from each project document and display the list of project names
-    # project_names = [p['Project_Name'] for p in user_projects]
-    # print("------------------\n")
-    # print(project_names)
-    # print("------------------\n")
-
-    projects = db['PROJECT'].find()
+            # print("\n\nPROJ: {}\n".format(projects))
+    except:
+        projects = []
 
     return render_template('auth/home.html', name=current_user, projects=projects, user_email=user_email)
 
@@ -258,10 +251,6 @@ def load_user(useremail):
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     return redirect(url_for('index'))
-
-project_collection = db["PROJECT"]
-user_team_collection = db["USER_TEAM"]
-team_collection = db["TEAM"]
 
 @app.route("/addProject", methods=["GET", "POST"])
 def add_project():
@@ -287,8 +276,6 @@ def add_project():
             "Start_Date": start_date,
             "Deadline": deadline
         }
-
-       
 
         # Insert the project document into the projects collection
         projectID = project_collection.insert_one(project)
@@ -322,8 +309,9 @@ def add_project():
             {"$set": {"ProjectID": [projectID.inserted_id]}}
         )
         print("done")
+        flash("NEW PROJECT CREATED: {}".format(project_name))
         return redirect(url_for("home"))
 
     else:
         print("poooo")
-        return render_template("auth/addProject.html")
+        return render_template("auth/addProject.html", name=current_user)

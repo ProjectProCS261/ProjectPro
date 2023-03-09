@@ -2,9 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn import preprocessing
-from database import getProjectMetrics
-from project import getProject, getExpenditures, getProjectID
-from team import getTeamSize
+from project import getProject, getExpenditures, getProjectID, getProjectMetrics, getTeamSize
 import numpy as np
 from datetime import datetime
 import json
@@ -17,38 +15,10 @@ def runAlg(projectName, owner):
     # Load data to predict into a pandas DataFrame
     df = getProjectMetrics(projectID, projectName, owner)
 
-    # Get example data
-    f = open("sampledata.json")
-    sampleData = json.load(f)
-    exampleData = pd.to_csv(pd.read_json(sampleData))
-    exampleData = pd.DataFrame(sampleData)
-
-    # Split example data into features x and target y
-    Xd = exampleData[['Methodology', 'Duration', 'GroupSize', 'MoraleRating', 'CommunicationRating', 'DifficultyRating']].to_numpy()
-    yd = exampleData[['lowMorale','tooDifficult','poorCommunication']].to_numpy()
-
-    # Split data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(Xd, yd, test_size=0.2, random_state=0,shuffle = True)
-
-    # Encode categorical data
-    le = preprocessing.LabelEncoder()
-    methodologies = X_train[:,0]
-    methods = np.array(["Waterfall", "Scrum", "Agile", "Lean", "Feature-Driven", "Extreme Programming"])
-    methodsEnc = (pd.get_dummies(methods)).values.tolist()
-    methodsMatch = dict(zip(methods, methodsEnc))
-
-    X_train_cat = [methodsMatch.get(item,item)  for item in methodologies]
-    X_train_num = X_train[:,1:]
-    X_train = np.column_stack((X_train_num, X_train_cat))
-
-    morale = y_train[:,0]
-    diff = y_train[:,1]
-    comm = y_train[:,2]
-    y_train = np.column_stack((le.fit_transform(morale), le.fit_transform(diff), le.fit_transform(comm),))
-
-    # Train a linear regression model
-    lr = LinearRegression(fit_intercept=False)
-    lr.fit(X_train, y_train)
+    # Train model
+    trainedAlg = trainAlg()
+    lr = trainedAlg[0]
+    methodsMatch = trainedAlg[3]
 
     # Predict on new data
     newData =  np.concatenate((df[1:6],methodsMatch.get(df[0]))).reshape(1,-1)
@@ -61,7 +31,7 @@ def runAlg(projectName, owner):
     poorCommunication = min(yPredNp[0,2],1)
 
     # Calculate weighted average 
-    initProbOfFailure =  ((0.49 * lowMorale) + (0.72 * tooDifficult) +  (0.57 * poorCommunication)) / 1.78
+    initProbOfFailure =  (0.49 * lowMorale + 0.72 * tooDifficult +  0.57 * poorCommunication) / 1.78
 
     # Calculate additional probabilities
     onTrack = df[7]
@@ -71,7 +41,7 @@ def runAlg(projectName, owner):
     behind = behindSched(onTrack, progress)
 
     # Alter probability based on additional metrics
-    initProbOfFailure = initProbOfFailure * overBudg * wrongMethod * behind
+    initProbOfFailure = min(initProbOfFailure * overBudg * wrongMethod * behind,1)
 
     # Get actual probability of a project failing because of behing behind schedule and not making enough progress
     if behind >= 1:
@@ -91,6 +61,42 @@ def runAlg(projectName, owner):
 
     # Return list of probabilities
     return [initProbOfFailure, lowMorale, tooDifficult, poorCommunication, progressProb, budgetProb, methodTeamProb]
+
+# Trains the linear regression model on the sample data 
+def trainAlg(): 
+    # Get example data
+    f = open("sampledata.json")
+    sampleData = json.load(f)
+    exampleData = pd.to_csv(pd.read_json(sampleData))
+    exampleData = pd.DataFrame(sampleData)
+
+    # Split example data into features x and target y
+    Xd = exampleData[['Methodology', 'Duration', 'GroupSize', 'MoraleRating', 'CommunicationRating', 'DifficultyRating']].to_numpy()
+    yd = exampleData[['lowMorale','tooDifficult','poorCommunication']].to_numpy()
+
+    # Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(Xd, yd, test_size=0.2, random_state=0,shuffle = True)
+
+    # Encode categorical data
+    le = preprocessing.LabelEncoder()
+    methodologies = X_train[:,0]
+    methods = np.array(["Waterfall", "Scrum", "Agile", "Lean", "Feature-Driven", "Extreme-Programming"])
+    methodsEnc = (pd.get_dummies(methods)).values.tolist()
+    methodsMatch = dict(zip(methods, methodsEnc))
+
+    X_train_cat = [methodsMatch.get(item,item)  for item in methodologies]
+    X_train_num = X_train[:,1:]
+    X_train = np.column_stack((X_train_num, X_train_cat))
+
+    morale = y_train[:,0]
+    diff = y_train[:,1]
+    comm = y_train[:,2]
+    y_train = np.column_stack((le.fit_transform(morale), le.fit_transform(diff), le.fit_transform(comm)))
+
+    # Train a linear regression model
+    lr = LinearRegression(fit_intercept=False)
+    lr.fit(X_train, y_train)
+    return (lr, X_test, y_test, methodsMatch)
 
 # Tests the algorithm using the test data and returns a score of accuracy (best possible score is 1)
 def testAlg(model, X_test, y_test, methodsMatch):
@@ -137,10 +143,10 @@ def behindSched(onTrack, progress):
 def overBudget(projectName, owner):
     # Calculate total number of weeks 
     project = getProject(projectName, owner)
-    start = datetime.strptime(project["StartDate"], "%Y-%m-%d").date()
-    end = datetime.strptime(project["Deadline"], "%Y-%m-%d").date()
+    start = project["Start_Date"]
+    end = project["Deadline"]
     days = abs(end-start).days
-    currentDate = datetime.today().date()
+    currentDate = datetime.today()
     currentDays = abs(currentDate-start).days
 
     # Calculate percentage of project completed
@@ -187,7 +193,7 @@ def wrongMethodology(projectName, owner):
             relativeSize = (teamSize - 7) / teamSize
         else:
             relativeSize = (3 - teamSize) / 3
-    elif methodology == "Scrum" and teamSize > 9 or teamSize < 3:
+    elif methodology == "Scrum" and teamSize > 10 or teamSize < 3:
         badSize = True
         if teamSize > 9:
             relativeSize = teamSize - 9 / teamSize
@@ -199,7 +205,7 @@ def wrongMethodology(projectName, owner):
             relativeSize = teamSize - 5 / teamSize
         else:
             relativeSize = (3 - teamSize) / 3
-    elif methodology == "Extreme Programming" and teamSize > 12 or teamSize < 2:
+    elif methodology == "Extreme-Programming" and teamSize > 12 or teamSize < 2:
         badSize = True
         if teamSize > 12:
             relativeSize = teamSize - 12 / teamSize

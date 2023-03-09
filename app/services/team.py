@@ -9,19 +9,9 @@ def addUserToTeam(userEmail, ownerEmail, projectName):
     teams = db["TEAM"]
 
     projectID = getProjectID(projectName, ownerEmail)
-    teamID = teams.find_one( {'ProjectID' : projectID}, {'_id' : 1})['_id']
+    teamID = teams.find_one( {'ProjectID' : [projectID]}, {'_id' : 1})['_id']
     # Add user to team 
     userTeams.insert_one({
         'User_Email' : userEmail,
         'TeamID' : teamID
     })
-
-# Gets the number of users in a team for a project
-def getTeamSize(projectName, ownerEmail):
-    db = getDatabase()
-    userTeams = db["USER_TEAM"]
-    teams = db["TEAM"]
-    projectID = getProjectID(projectName, ownerEmail)
-    teamID = teams.find_one( {'ProjectID' : projectID}, {'_id' : 1})['_id']
-    teamSize = userTeams.count_documents( {'TeamID' : teamID} )
-    return teamSize
