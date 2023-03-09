@@ -185,6 +185,6 @@ def getTeamSize(projectName, ownerEmail):
     userTeams = db["USER_TEAM"]
     teams = db["TEAM"]
     projectID = getProjectID(projectName, ownerEmail)
-    teamID = teams.find_one( {'ProjectID' : projectID}, {'_id' : 1})['_id']
+    teamID = teams.find_one( {'ProjectID' : [projectID]}, {'_id' : 1})['_id']
     teamSize = userTeams.count_documents( {'TeamID' : teamID} )
     return teamSize
