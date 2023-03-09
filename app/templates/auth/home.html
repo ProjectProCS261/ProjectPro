@@ -36,24 +36,24 @@
                                 <!-- use jinja for each of the three cards to display the relevant information -->
                                 <div class="card border-0 col-5 col-md-3 p-2" style="background-color:rgb(128, 147, 94)">
                                     <h6 class="card-title">Projects Completed</h6>
-                                    <div class="display-6 shadow-text">17</div>
+                                    <div class="display-6 shadow-text">{{ projects|length - inprogress|length }}</div>
                                 </div>
                                 <div class="card border-0 col-5 col-md-3 p-2" style="background-color:rgb(158, 126, 97)">
                                     <h6 class="card-title">Ongoing Projects</h6>
-                                    <div class="display-6 shadow-text">1</div>
+                                    <div class="display-6 shadow-text">{{ inprogress|length }}</div>
                                 </div>
                                 <div class="card border-0 col-5 col-md-3 p-2 mt-2 mt-md-0" style="background-color:rgb(149, 97, 97)">
                                     <h6 class="card-title">Pending Reviews</h6>
-                                    <div class="display-6 shadow-text">1</div>
+                                    <div class="display-6 shadow-text">{{ pending|length }}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center mb-4">
-                    <div class="col-12 col-lg-7">
-                        <div class="card border-0 mt-4 lg-board" style="background-color:rgb(73, 72, 71)">
-                            <div class="card-body text-start" style="overflow-x: scroll">
+                    <div class="col-12 col-lg-9">
+                        <div class="card border-0 mt-4 project-board" style="background-color:rgb(73, 72, 71)">
+                            <div class="card-body text-start">
                                 <h2 class="card-title">My Projects</h2>
                                 <table class="table text-white">
                                   <tr>
@@ -70,16 +70,20 @@
                                         <td class="show-lg-tc">{{ project.Client_Name }}</td>
                                         <td class="show-lg-tc">{{ project.Owner_Email }}</td>
                                         <td>{{ project.Deadline }}</td>
-                                        <!-- <td><i class="bi bi-check-circle-fill me-2" style="color:rgb(63, 153, 63)"></i>Completed</td> -->
+                                        
+                                        {% if project.Completed %}
+                                        <td><i class="bi bi-check-circle-fill me-2" style="color:rgb(63, 153, 63)"></i>Completed</td>
+                                        {% else %}
                                         <td><i class="bi bi-slash-circle-fill me-2" style="color:rgb(196, 128, 52)"></i>In progress</td>
-                                        <!-- <td><i class="bi bi-dash-circle-fill me-2" style="color:rgb(145, 60, 48)"></i>On hold</span></td> -->
+                                        {% endif %}
                                       </tr>
                                     {% endfor %}
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-5">
+
+                    <div class="col-12 col-lg-3">
                         <div class="card border-0 mt-4 sm-board" style="background-color:rgb(94, 61, 61)">
                             <div class="card-body text-start">
                                 <h4 class="card-title"><i class="bi bi-exclamation-circle me-2"></i>Pending Review</h4>
@@ -87,6 +91,9 @@
                                     <!-- use jinja to display all ongoing projects, where the user has not submitted their input form for the current week -->
                                     <!-- similarly to the sidebar, have these act as links to that project's form page -->
                                     <li class="mt-2"><a href="/input"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
+                                    {% for project in pending %}
+                                    <li class="mt-2"><a href="{{ url_for('review', projectID=project._id) }}"><i class="bi bi-hammer me-2"></i>{{project.Project_Name}}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>

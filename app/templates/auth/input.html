@@ -121,94 +121,102 @@
                               </div>
                          </div>
                               
-                              <div class="box my-4">
-                                   <!-- CODE FOR SAMPLE SLIDER TO GUIDE USER AS REFERENCE -->
-                                   <label for="range-input"></label>
-                                   <div class="range-labels">
-                                        <span class="range-label-min"></span>
-                                        <span class="range-label-mid"></span>
-                                        <span class="range-label-max"></span>
-                                   </div>
-                              
-                                   <input type="range" id="range-input" name="range-input" min="0" max="10" step="1" class="no-knob">
-                                   <div class="range-labels text-white">
-                                        <span>1</span>
-                                        <span style="margin-left: auto;">10</span><br><br>
-                                   </div>
-               
-                                   <!-- CODE FOR WHERE USER INPUTS DATA -->
-                                   <form action="" method="POST">
-                                        <div class="mb-3">
-                                          <label for="morale" class="form-label">How would you rate your morale while working on this project?</label>
-                                          <input type="range" name="morale" class="form-range" min="1" max="10" step="0.5" id="morale" value="5.5">
-                                        </div>
-                                        <div class="mb-3">
-                                          <label for="difficulty" class="form-label">How difficult are you finding this project?</label>
-                                          <input type="range" name="difficulty" class="form-range" min="1" max="10" step="0.5" id="difficulty" value="5.5">
-                                        </div>
-                                        <div class="mb-3">
-                                          <label for="communication" class="form-label">How would you rate the communication with your other team members?</label>
-                                          <input type="range" name="communication" class="form-range" min="1" max="10" step="0.5" id="communication" value="5.5">
-                                        </div>
-                                        <div class="mb-3">
-                                          <label for="progress" class="form-label">How would you rate your progress on this project?</label>
-                                          <input type="range" name="progress" class="form-range" min="1" max="10" step="0.5" id="progress" value="5.5">
-                                        </div>
-               
-                                        <!-- EXTRA INPUTS ONLY FOR PROJECT OWNER -->
-               
-                                        <!-- ON TRACK STATUS -->
-                                        <div class="mb-3">
-                                             <label for="projectstatus" class="form-label">How would you describe the current status of the project?</label><br>
-                                             <input class="form-check-input" type="radio" name="status" id="behind">
-                                             <label class="form-check-label" for="behind"> Behind Schedule </label>&nbsp;&nbsp;&nbsp;
-                                             <input class="form-check-input" type="radio" name="status" id="ontrack">
-                                             <label class="form-check-label" for="ontrack"> On Schedule </label>&nbsp;&nbsp;&nbsp;
-                                             <input class="form-check-input" type="radio" name="status" id="ahead">
-                                             <label class="form-check-label" for="ahead"> Ahead of Schedule </label>
-                                        </div>
-                                        
-                                        <!-- INPUT EXPENSES -->
-                                        
-                                        <div class="mb-3">
-                                             <label for="budget" class="form-label">Project Expenses (if relevant):</label>
-                                             <div class="form-group row expense-row">
-                                                  <div class="col-sm-5">
-                                                       <input type="text" class="form-control expense-name" placeholder="Description" id="description">
-                                                  </div>
-                                                  <div class="col-sm-4">
-                                                       <input type="number" min="0" class="form-control expense-amount" placeholder="Amount (£)" id="amount"><br>
-                                                  </div>
-                                                  <div class="col-sm-2">
-                                                       <button type="button" class="btn red-btn text-white remove-btn">Delete</button>
-                                                  </div>
-                                             </div>
-               
-                                             <div class="form-group row">
-                                                  <div class="col-sm-6 text-right">
-                                                       <button type="button" class="btn green-btn text-white add-btn">Add Expenses</button><br>
-                                                  </div>
-                                             </div>
-                                        </div>
-               
-                                        <div class="mb-3">
-                                             <label for="completion" class="form-label">Is the project completed?</label>
-                                             <input class="form-check-input" type="radio" name="completion" id="Yes">
-                                             <label class="form-check-label" for="completion"> Yes </label>&nbsp;&nbsp;&nbsp;
-                                             <input class="form-check-input" type="radio" name="completion" id="No">
-                                             <label class="form-check-label" for="completion"> No</label>
-                                        </div>
-                                        <!-- END OF PROJECT-OWNER ONLY INPUTS -->
-               
-                                   <!-- SUBMIT AND CLEAR ALL BUTTON  -->
-                                        <div class="mb-3 text-center">
-                                             <input type="submit" value="Submit" class="button">
-                                        </div>
-                                        <button id="clearbtn" type="button" class="btn btn-primary" onclick="resetSlider()">Clear All</button>
-               
-                                   </form>
-                              </div>
                     </div>
+
+               <div class="col-md-12 box">
+                    <div class="row">
+                         <div class="col-md-12 text-center">
+                              <h3>Project Review</h3><p></p>
+                         </div>
+                    </div>
+               
+                    <!-- CODE FOR SAMPLE SLIDER TO GUIDE USER AS REFERENCE -->
+                    <label for="range-input"></label>
+                    <div class="range-labels">
+                         <span class="range-label-min"></span>
+                         <span class="range-label-mid"></span>
+                         <span class="range-label-max"></span>
+                    </div>
+               
+                    <input type="range" id="range-input" name="range-input" min="0" max="10" step="1" class="no-knob">
+                    <div class="range-labels">
+                         <span>1</span>
+                         <span style="margin-left: auto;">10</span><br><br>
+                    </div>
+
+                    <!-- CODE FOR WHERE USER INPUTS DATA -->
+                    <form action="" method="POST">
+                         <div class="mb-3">
+                           <label for="morale" class="form-label">How would you rate your morale while working on this project?</label>
+                           <input type="range" name="morale" class="form-range" min="1" max="10" step="0.5" id="morale" value="5.5">
+                         </div>
+                         <div class="mb-3">
+                           <label for="difficulty" class="form-label">How difficult are you finding this project?</label>
+                           <input type="range" name="difficulty" class="form-range" min="1" max="10" step="0.5" id="difficulty" value="5.5">
+                         </div>
+                         <div class="mb-3">
+                           <label for="communication" class="form-label">How would you rate the communication with your other team members?</label>
+                           <input type="range" name="communication" class="form-range" min="1" max="10" step="0.5" id="communication" value="5.5">
+                         </div>
+                         <div class="mb-3">
+                           <label for="progress" class="form-label">How would you rate your progress on this project?</label>
+                           <input type="range" name="progress" class="form-range" min="1" max="10" step="0.5" id="progress" value="5.5">
+                         </div>
+
+                         <!-- EXTRA INPUTS FOR PROJECT OWNER -->
+
+                         {% if owner %}
+                         <!-- ON TRACK STATUS -->
+                         <div class="mb-3">
+                              <label for="projectstatus" class="form-label">How would you describe the current status of the project?</label>
+                              <input class="form-check-input" type="radio" name="status" id="behind" value="behind">
+                              <label class="form-check-label" for="behind"> Behind Schedule </label>&nbsp;&nbsp;&nbsp;
+                              <input class="form-check-input" type="radio" name="status" id="ontrack" checked value="ontrack">  
+                              <label class="form-check-label" for="ontrack" checked> On Schedule </label>&nbsp;&nbsp;&nbsp;
+                              <input class="form-check-input" type="radio" name="status" id="ahead" value="ontrack">
+                              <label class="form-check-label" for="ahead"> Ahead of Schedule </label>
+                         </div>
+
+                         <!-- INPUT EXPENSES -->
+                         <div class="mb-3">
+                              <label for="budget" class="form-label">Project Expenses (if relevant):</label>
+                              <div class="form-group row expense-row">
+                                   <div class="col-sm-5">
+                                        <input type="text" class="form-control expense-name" placeholder="Description" id="description">
+                                   </div>
+                                   <div class="col-sm-4">
+                                        <input name="expenses" type="number" min="0" class="form-control expense-amount" placeholder="Amount (£)" id="amount"><br>
+                                   </div>
+                                   <!-- <div class="col-sm-2">
+                                        <button type="button" class="btn btn-danger remove-btn">Delete</button>
+                                   </div>
+                              </div>
+
+                              <div class="form-group row">
+                                   <div class="col-sm-6 text-right">
+                                        <button type="button" class="btn btn-success add-btn">Add Expenses</button><br>
+                                   </div>
+                              </div> -->
+                         </div>
+
+                         <div class="mb-3">
+                              <label for="completion" class="form-label">Is the project completed?</label>
+                              <input class="form-check-input" type="radio" name="completion" id="Yes" value="yes">
+                              <label class="form-check-label" for="completion"> Yes </label>&nbsp;&nbsp;&nbsp;
+                              <input class="form-check-input" type="radio" name="completion" id="No" value="no" checked>
+                              <label class="form-check-label" for="completion" checked> No</label>
+                         </div>
+                    {% endif %}
+
+                    <!-- SUBMIT AND CLEAR ALL BUTTON  -->
+                         <div class="mb-3 text-center">
+                              <input type="hidden" name="owner" value="{{ owner }}" />
+                              <input type="hidden" name="projectID" value="{{ projectID }}" />
+                              <input type="submit" value="Submit" class="button">
+                         </div>
+                         <button id="clearbtn" type="button" class="btn btn-primary" onclick="resetSlider()">Clear All</button>
+
+                    </form>
                </div>
           </div>
      </div>
