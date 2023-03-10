@@ -10,7 +10,7 @@ from bson.objectid import ObjectId
 from app.services.database import getDatabase
 
 import werkzeug
-from datetime import date,datetime 
+from datetime import date, datetime, timedelta 
 
 from app import app
 
@@ -103,6 +103,22 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+def get_projects():
+    user_email = current_user.email
+    user_team = user_team_collection.find({"User_Email": user_email})
+    projects = []
+    inprogress = []
+    
+    for userT in user_team:
+        team_id = userT["TeamID"]
+        team = team_collection.find_one({"_id": team_id})
+        project_id = team["ProjectID"][0]
+        project = project_collection.find_one({"_id": project_id})
+        if project["Completed"] == False:
+            inprogress.append(project)
+        projects.append(project)
+    return projects, inprogress
+
 @app.route('/dataview')
 @login_required 
 def dataview():
@@ -111,25 +127,21 @@ def dataview():
 @app.route('/home')
 @login_required
 def home():
-    try:
-        user_email = current_user.email
-        user_team = user_team_collection.find({"User_Email": user_email})
-        projects = []
-        inprogress = []
-        
-        for userT in user_team:
-            team_id = userT["TeamID"]
-            team = team_collection.find_one({"_id": team_id})
-            project_id = team["ProjectID"][0]
-            project = project_collection.find_one({"_id": project_id})
-            if project["Completed"] == False:
-                inprogress.append(project)
-            projects.append(project)
+    projects, inprogress = get_projects()
+    pending = []
+    day = datetime.today()
+    for proj in inprogress:
+        projectID = proj["_id"]
+        print(projectID)
+        print(proj["Project_Name"])
+        entry = metrics_collection.find({"ProjectID":str(projectID), "User": current_user.email, "Date": {'$gte': (day - timedelta(days=7))}})
+        size = 0
+        for _ in entry:
+            size+=1
+        if size == 0:
+            pending.append(proj)
 
-    except:
-        projects = []
-
-    return render_template('auth/home.html', name=current_user, projects=projects, inprogress=inprogress, pending=projects, user_email=user_email)
+    return render_template('auth/home.html', name=current_user, projects=projects, inprogress=inprogress, pending=pending)
 
 @app.route("/addProject", methods=["GET", "POST"])
 def add_project():
@@ -184,7 +196,8 @@ def add_project():
         )
         return redirect(url_for("home"))
     else:
-        return render_template("auth/addProject.html", name=current_user)
+        projects, inprogress = get_projects()
+        return render_template("auth/addProject.html", name=current_user, inprogress=inprogress)
 
 
 @app.route('/review', methods=["GET", "POST"])
@@ -197,7 +210,7 @@ def review():
         morale = request.form["morale"]
         difficulty = request.form["difficulty"]
         communication = request.form["communication"]
-        date = datetime.now().strftime('%d/%m/%Y')
+        today = datetime.today()
         user = current_user.email
         progress = request.form["progress"]
         status = True
@@ -209,7 +222,8 @@ def review():
             expenses = "0"+request.form["expenses"]
             completion = request.form["completion"]
             if completion == "yes":
-                project_collection.find_one_and_update({"projectID": ObjectId(projectID)}, {"Completed": True})
+                print(1)
+                project_collection.update_one({"_id": ObjectId(projectID)},{"$set": {"Completed": True}})
 
         # Create a new metrics entry with the form data
         project_metrics = {
@@ -220,12 +234,10 @@ def review():
             "Progress": progress,
             "On_Track": status,
             "Expenses": int(expenses),
-            "Date": date,
+            "Date": today,
             "User": user
         }
-        print(project_metrics)
-
-        # metrics_collection.insert_one(project_metrics)
+        metrics_collection.insert_one(project_metrics)
         return redirect(url_for('home'))
 
     else:
@@ -234,7 +246,8 @@ def review():
         owner = False
         if current_project['Owner_Email'] == current_user.email:
             owner = True
-        return render_template("auth/input.html", owner=owner, projectID=projectID)
+        projects, inprogress = get_projects()
+        return render_template("auth/input.html", owner=owner, projectID=projectID, name=current_user, inprogress=inprogress)
 
 @login_manager.user_loader
 def load_user(useremail):

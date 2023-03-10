@@ -90,7 +90,6 @@
                                 <ul style="list-style-type:none">
                                     <!-- use jinja to display all ongoing projects, where the user has not submitted their input form for the current week -->
                                     <!-- similarly to the sidebar, have these act as links to that project's form page -->
-                                    <li class="mt-2"><a href="/input"><i class="bi bi-hammer me-2"></i>Project 1</a></li>
                                     {% for project in pending %}
                                     <li class="mt-2"><a href="{{ url_for('review', projectID=project._id) }}"><i class="bi bi-hammer me-2"></i>{{project.Project_Name}}</a></li>
                                     {% endfor %}
