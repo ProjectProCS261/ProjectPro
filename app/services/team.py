@@ -1,5 +1,5 @@
-from database import getDatabase
-from project import getProjectID
+from .database import getDatabase
+from .project import getProjectID
 
 # Adds a user to a team
 def addUserToTeam(userEmail, ownerEmail, projectName):
