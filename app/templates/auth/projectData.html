@@ -28,20 +28,20 @@
                                 <!-- use jinja for each of the three cards to display the relevant information -->
                                 <div class="card border-0 col-5 col-md-2 p-2" style="background-color:rgb(83, 124, 129)">
                                     <h6 class="card-title">Morale</h6>
-                                    <div class="display-6 shadow-text">78%</div>
+                                    <div class="display-6 shadow-text">{{avgMorale*10}}%</div>
                                 </div>
                                 <div class="card border-0 col-5 col-md-2 p-2" style="background-color:rgb(83, 124, 129)">
                                     <h6 class="card-title">Difficulty</h6>
-                                    <div class="display-6 shadow-text">25%</div>
+                                    <div class="display-6 shadow-text">{{avgDiff*10}}%</div>
                                 </div>
                                 <div class="card border-0 col-5 col-md-2 p-2 mt-2 mt-md-0" style="background-color:rgb(83, 124, 129)">
                                     <h6 class="card-title comm-bg">Communication</h6>
                                     <h6 class="card-title comm-sm">Comms</h6>
-                                    <div class="display-6 shadow-text">67%</div>
+                                    <div class="display-6 shadow-text">{{avgComm*10}}%</div>
                                 </div>
                                 <div class="card border-0 col-5 col-md-2 p-2 mt-2 mt-md-0" style="background-color:rgb(83, 124, 129)">
                                     <h6 class="card-title">Progress</h6>
-                                    <div class="display-6 shadow-text">84%</div>
+                                    <div class="display-6 shadow-text">{{avgProg*10}}%</div>
                                 </div>
                             </div>
                         </div>
@@ -88,43 +88,41 @@
                                     <table class="table text-white">
                                         <tr>
                                           <th>Email</th>
-                                          <th>Form Submitted</th>
                                           <th></th>
                                         </tr>
                                         <tbody>
+                                            {% for member in members %}
                                             <tr>
-                                                <td>johnnyhardhatson@gmail.com</td>
-                                                <td><i class="bi bi-file-earmark-check me-1" style="color:rgb(61, 207, 61)"></i>Done</td>
+                                                <td> {{member.User_Email}} </td>
                                                 <td>
-                                                    <form>
+                                                    <form method="POST">
+                                                        <input type="hidden" name="type" value="remove">
+                                                        <input type="hidden" name="TeamID" value="{{team._id}}">
+                                                        <input type="hidden" name="ProjectID" value="{{project._id}}">
+                                                        <input type="hidden" name="member" value="{{member.User_Email}}">
+                                                        {% if owner %}
                                                         <button class="btn text-white red-btn" type="submit">Remove</button>
+                                                        {% endif %}
                                                     </form>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>timmymudhands@outlook.com</td>
-                                                <td><i class="bi bi-file-earmark me-1" style="color:rgb(207, 156, 61)"></i>Pending</td>
-                                                <td>
-                                                    <!-- <form name="removeMember action="/removemember" method="POST"> -->
-                                                    <form>
-                                                        <!-- <input type="hidden" name="remove-email" value="[use jinja to insert email here]"-->
-                                                        <button class="btn text-white red-btn" type="submit">Remove</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
+                                    {% if owner %}
                                     <div class="row justify-content-center">
                                         <div class="col-11 card border-0 py-3" style="background-color:rgb(106, 158, 154)">
                                             Add new member
-                                            <!-- <form name="addMember" action="/addmember" method="POST"> -->
-                                            <form>
-                                                <input type="text" name="new-email" placeholder="Team member's email" required>
+                                            <form method="POST">
+                                                <input type="text" name="member" placeholder="Team member's email" required>
+                                                <input type="hidden" name="type" value="add">
+                                                <input type="hidden" name="TeamID" value="{{team._id}}">
+                                                <input type="hidden" name="ProjectID" value="{{project._id}}">
                                                 <button class="btn text-white green-btn" type="submit" style="float:right">Add</button>
                                             </form>
                                         </div>
-                                    </div>
-                                    
+                                    </div>    
+                                 {% endif %}       
                             </div>
                         </div>
                     </div>

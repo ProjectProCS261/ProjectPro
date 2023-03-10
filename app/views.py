@@ -8,12 +8,13 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from bson.objectid import ObjectId
 from app.services.database import getDatabase
+from app.services import project
+from app.services.algorithm import runAlg
 
 import werkzeug
 from datetime import date, datetime, timedelta 
 
 from app import app
-
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -146,7 +147,7 @@ def add_project():
         client_name = request.form["client_name"]
         methodology = request.form["methodology"]
         budget = request.form["budget"]
-        owner = request.form["owner"]
+        owner = current_user.email
         start_date = datetime.strptime(request.form["start_date"], "%Y-%m-%d")
         deadline = datetime.strptime(request.form["deadline"], "%Y-%m-%d")
 
@@ -188,12 +189,12 @@ def review():
         # Get the form data submitted by the user
         projectID = request.form["projectID"]
         owner = request.form["owner"]
-        morale = request.form["morale"]
-        difficulty = request.form["difficulty"]
-        communication = request.form["communication"]
+        morale = float(request.form["morale"])
+        difficulty = float(request.form["difficulty"])
+        communication = float(request.form["communication"])
         today = datetime.today()
         user = current_user.email
-        progress = request.form["progress"]
+        progress = float(request.form["progress"])
         status = True
         expenses = "0"
         if owner == "True":
@@ -230,13 +231,41 @@ def review():
         projects, inprogress = get_projects()
         return render_template("auth/input.html", owner=owner, projectID=projectID, name=current_user, inprogress=inprogress)
 
-@app.route('/projectdata')
+@app.route('/projectdata', methods=["GET", "POST"])
 @login_required 
 def projectdata():
-    projectID = request.args.get('projectID')
-    current_project = project_collection.find_one({"_id": ObjectId(projectID)})
-    projects, inprogress = get_projects()
-    return render_template('auth/projectData.html', name=current_user, inprogress=inprogress, project=current_project)
+    if request.method == "POST":
+        # Get the form data submitted by the user
+        action = request.form["type"]
+        teamID = request.form["TeamID"]
+        projectID = request.form["ProjectID"]
+        member = request.form["member"]
+        if action == "add":
+            new_user_team = {
+                "User_Email": member,
+                "TeamID": ObjectId(teamID)
+            }
+            user_team_collection.insert_one(new_user_team)
+        else:
+            user_team_collection.delete_one({"ProjectID": [ObjectId(projectID)], "User_Email": member})
+        return redirect(url_for("projectdata", projectID=projectID))
+    else:
+        projectID = request.args.get('projectID')
+        current_project = project_collection.find_one({"_id": ObjectId(projectID)})
+        current_team = team_collection.find_one({"ProjectID": [ObjectId(projectID)]})
+        members = user_team_collection.find({"TeamID": (current_team["_id"])})
+        owner = False
+        if current_project["Owner_Email"] == current_user.email:
+            owner = True
+        projects, inprogress = get_projects()
+
+        _,_,_, avgMorale, avgComm, avgDiff, avgProg, _ = project.getProjectMetrics(projectID, current_project["Project_Name"], current_project["Owner_Email"])     
+
+        # results = runAlg(current_project["Project_Name"], current_project["Owner_Email"])
+        # print(results)
+
+        return render_template('auth/projectData.html', name=current_user, inprogress=inprogress, project=current_project, team=current_team, members=members, owner=owner
+                               , avgMorale=avgMorale, avgComm=avgComm, avgDiff=avgDiff, avgProg=avgProg)
 
 @login_manager.user_loader
 def load_user(useremail):
@@ -246,7 +275,7 @@ def load_user(useremail):
     else:
         return None
 
-@login_manager.unauthorized_handler
+@login_manager.unauthorized_handler 
 def unauthorized_handler():
     return redirect(url_for('index'))
 

@@ -169,6 +169,7 @@ def getProjectMetrics(projectID, projectName, owner):
                 'avgDiff' : {'$avg': '$DifficultyRating'},
                 'avgProg' : {'$avg' : '$Progress'}
             }}]))
+        print(metricsMean)
         avgMorale = metricsMean[0]['avgMorale']
         avgComm = metricsMean[0]['avgComm']
         avgDiff = metricsMean[0]['avgDiff']

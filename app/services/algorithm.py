@@ -65,9 +65,8 @@ def runAlg(projectName, owner):
 # Trains the linear regression model on the sample data 
 def trainAlg(): 
     # Get example data
-    f = open("sampledata.json")
+    f = open("app/services/sampledata.json")
     sampleData = json.load(f)
-    exampleData = pd.to_csv(pd.read_json(sampleData))
     exampleData = pd.DataFrame(sampleData)
 
     # Split example data into features x and target y
