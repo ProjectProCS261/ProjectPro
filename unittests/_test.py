@@ -4,6 +4,7 @@ from flask import Flask, url_for, session
 from flask_login import login_user, LoginManager, logout_user, current_user, login_required, UserMixin
 from app import app
 from app.views import User
+from app.services.project import getProjectID
 
 @pytest.fixture()
 def client():
@@ -47,7 +48,13 @@ def test_add_project(client):
         assert response.status_code == 200
         assert response.request.path == url_for("home")
 
-
- 
+def test_review_project(client):
+    with client:
+        client.post('/login', data=dict(email='testuser@example.com', password='password'), follow_redirects=False)
+        project = client.post('/addProject', data=dict(project_name='test project', client_name='test client', methodology='Agile', budget='5000',owner='testuser@example.com',start_date='2023-01-01',deadline='2023-02-01'), follow_redirects=True)
+        pID = getProjectID('test project', 'testuser@example.com')
+        response = client.post('/review', data=dict(projectID = pID, owner='testuser@example.com', morale=5, difficulty=5,communication=5,progress=5,status="ontrack",expenses=500,completion="no"), follow_redirects=True)
+        assert response.status_code == 200
+        assert response.request.path == url_for("home")
 
 

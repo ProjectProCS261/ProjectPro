@@ -1,4 +1,4 @@
-from database import getDatabase
+from .database import getDatabase
 
 # Inserts a new project into the database and returns project id
 def insertProject(projectName, clientName, methodology, budget, owner, startDate, deadline):
