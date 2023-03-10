@@ -65,6 +65,7 @@
                                   </tr>
                                   <tbody>
                                     {% for project in projects %}
+                                    <a href="{{ url_for('projectdata', projectID=project._id) }}">
                                       <tr>
                                         <td>{{ project.Project_Name }}</td>
                                         <td class="show-lg-tc">{{ project.Client_Name }}</td>
@@ -77,6 +78,7 @@
                                         <td><i class="bi bi-slash-circle-fill me-2" style="color:rgb(196, 128, 52)"></i>In progress</td>
                                         {% endif %}
                                       </tr>
+                                    </a>
                                     {% endfor %}
                                 </table>
                             </div>

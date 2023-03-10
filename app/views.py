@@ -118,11 +118,6 @@ def get_projects():
             inprogress.append(project)
         projects.append(project)
     return projects, inprogress
-
-@app.route('/dataview')
-@login_required 
-def dataview():
-    return render_template('auth/projectData.html', name=current_user)
     
 @app.route('/home')
 @login_required
@@ -180,20 +175,6 @@ def add_project():
             'User_Email' : owner,
             'TeamID' : teamID.inserted_id
         })
-
-        # Get the email of the logged in user
-        user_email = current_user.email
-
-        # Find the team ID associated with the logged in user
-        user_team = user_team_collection.find_one({"User_Email": user_email})
-
-        # Add the project ID to the team's list of project IDs
-        team_id = user_team["TeamID"]
-        print("TEAM ID: {}\n".format(team_id))
-        team_collection.update_one(
-            {"_id": team_id},
-            {"$set": {"ProjectID": [projectID.inserted_id]}}
-        )
         return redirect(url_for("home"))
     else:
         projects, inprogress = get_projects()
@@ -248,6 +229,14 @@ def review():
             owner = True
         projects, inprogress = get_projects()
         return render_template("auth/input.html", owner=owner, projectID=projectID, name=current_user, inprogress=inprogress)
+
+@app.route('/projectdata')
+@login_required 
+def projectdata():
+    projectID = request.args.get('projectID')
+    current_project = project_collection.find_one({"_id": ObjectId(projectID)})
+    projects, inprogress = get_projects()
+    return render_template('auth/projectData.html', name=current_user, inprogress=inprogress, project=current_project)
 
 @login_manager.user_loader
 def load_user(useremail):

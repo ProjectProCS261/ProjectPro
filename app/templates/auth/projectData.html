@@ -18,7 +18,7 @@
 
         <div class="main-content col-main text-white" style="background-color:rgb(51, 50, 50)">
             <div class="container-fluid">
-                <div class="display-5 mt-3 show-lg">[Project Name]</div>
+                <div class="display-5 mt-3 show-lg">{{ project.Project_Name }}</div>
 
                 <div class="row justify-content-center">
                     <div class="col-12">
@@ -135,23 +135,27 @@
                                 <table class="table table-sm text-white">
                                     <tr>
                                         <td><strong>Client:</strong></td>
-                                        <td>[client]</td>
+                                        <td>{{ project.Client_Name }}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Status:</strong></td>
-                                        <td>[status]</td>
+                                        {% if project.Completed %}
+                                        <td>Complete</td>
+                                        {% else %}
+                                        <td>In Progress</td>
+                                        {% endif %}
                                     </tr>
                                     <tr>
                                         <td><strong>Methodology:</strong></td>
-                                        <td>[methodology]</td>
+                                        <td>{{ project.Methodology }}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Start date:</strong></td>
-                                        <td>[startdate]</td>
+                                        <td>{{ project.Start_Date }}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Deadline:</strong></td>
-                                        <td>[deadline]</td>
+                                        <td>{{ project.Deadline }}</td>
                                     </tr>
                                 </table>
                             </div>
