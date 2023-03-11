@@ -60,7 +60,7 @@ def runAlg(projectName, owner):
         methodTeamProb = wrongMethod
 
     # Return list of probabilities
-    return [initProbOfFailure, lowMorale, tooDifficult, poorCommunication, progressProb, budgetProb, methodTeamProb]
+    return [round(initProbOfFailure*100,1), round(lowMorale*100,1), round(tooDifficult*100,1), round(poorCommunication*100,1), round(progressProb*100,1), round(budgetProb*100,1), round(methodTeamProb*100,1)]
 
 # Trains the linear regression model on the sample data 
 def trainAlg(): 
@@ -68,7 +68,6 @@ def trainAlg():
     f = open("app/services/sampledata.json")
     sampleData = json.load(f)
     exampleData = pd.DataFrame(sampleData)
-
     # Split example data into features x and target y
     Xd = exampleData[['Methodology', 'Duration', 'GroupSize', 'MoraleRating', 'CommunicationRating', 'DifficultyRating']].to_numpy()
     yd = exampleData[['lowMorale','tooDifficult','poorCommunication']].to_numpy()
@@ -82,7 +81,6 @@ def trainAlg():
     methods = np.array(["Waterfall", "Scrum", "Agile", "Lean", "Feature-Driven", "Extreme-Programming"])
     methodsEnc = (pd.get_dummies(methods)).values.tolist()
     methodsMatch = dict(zip(methods, methodsEnc))
-
     X_train_cat = [methodsMatch.get(item,item)  for item in methodologies]
     X_train_num = X_train[:,1:]
     X_train = np.column_stack((X_train_num, X_train_cat))
@@ -120,19 +118,19 @@ def behindSched(onTrack, progress):
     probOfFailure = 1
 
     # If the project is behind schedule but the team is making good progress on average then increase risk of failure by a reduced amount
-    if onTrack == "Behind Schedule":
+    if onTrack == "behind":
         if progress >= 7:
             probOfFailure = 1 + 0.26 * (1 - (progress / 10))
         else:
             probOfFailure = 1.26
 
     # If the project is on schedule the team is making bad progress on average then increase the risk of failure slightly
-    elif onTrack == "On Schedule":
+    elif onTrack == "ontrack":
         if progress < 5:
             probOfFailure = 1 + 0.26 * (progress / 10)
 
     # If the project is ahead of schedule and the team is making good progress then decrease the risk of failure
-    elif onTrack == "Ahead of Schedule":
+    elif onTrack == "ahead":
         if progress >= 7:
             probOfFailure = 1 - (0.26 *  (progress / 10))
 
