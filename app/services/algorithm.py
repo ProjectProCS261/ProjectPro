@@ -24,6 +24,7 @@ def runAlg(projectName, owner):
     newData =  np.concatenate((df[1:6],methodsMatch.get(df[0]))).reshape(1,-1)
     yPred = lr.predict(newData)
     yPredNp = np.absolute(np.array(yPred))
+    print(yPredNp)
 
     # Ensure probabilities aren't greater than 1
     lowMorale = min(yPredNp[0,0],1)

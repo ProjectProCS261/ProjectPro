@@ -73,8 +73,8 @@ def getExpenditures(projectName, owner):
     projectID = getProjectID(projectName, owner)
     db = getDatabase()
     expenditures = db["PROJECT_EXPENDITURE"]
-    allExpenditures = expenditures.find({ 'ProjectID' : projectID }, {'_id' : 0, 'Expenditure' : 1})
-    return allExpenditures
+    allExpenditures = expenditures.find({'ProjectID':str(projectID)})
+    return([i for i in allExpenditures])
 
 
 # Add status to project once calculated

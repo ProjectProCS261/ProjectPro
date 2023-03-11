@@ -26,6 +26,7 @@ project_collection = db["PROJECT"]
 user_team_collection = db["USER_TEAM"]
 team_collection = db["TEAM"]
 metrics_collection = db["PROJECT_METRICS"]
+expenditure_collection = db["PROJECT_EXPENDITURE"]
 
 # User class for use by Flask-Login 
 class User(UserMixin):
@@ -195,13 +196,16 @@ def review():
         today = datetime.today()
         user = current_user.email
         progress = float(request.form["progress"])
-        status = True
-        expenses = "0"
+        status = "ontrack"
         if owner == "True":
             status = request.form["status"]
-            if status == "ontrack":
-                status = True
             expenses = "0"+request.form["expenses"]
+            project_expenditure = {
+                "ProjectID": projectID,
+                "Expenditure": int(expenses),
+                "Date": today
+            }
+            expenditure_collection.insert_one(project_expenditure)
             completion = request.form["completion"]
             if completion == "yes":
                 print(1)
@@ -215,11 +219,11 @@ def review():
             "CommunicationRating": communication,
             "Progress": progress,
             "On_Track": status,
-            "Expenses": int(expenses),
             "Date": today,
             "User": user
         }
         metrics_collection.insert_one(project_metrics)
+
         return redirect(url_for('home'))
 
     else:
@@ -259,13 +263,17 @@ def projectdata():
             owner = True
         projects, inprogress = get_projects()
 
-        _,_,_, avgMorale, avgComm, avgDiff, avgProg, _ = project.getProjectMetrics(projectID, current_project["Project_Name"], current_project["Owner_Email"])     
+        costs = project.getExpenditures(current_project["Project_Name"], current_project["Owner_Email"])
+        spending = (sum([i["Expenditure"] for i in costs]))
+#        _,_,_, avgMorale, avgComm, avgDiff, avgProg, _ = project.getProjectMetrics(projectID, current_project["Project_Name"], current_project["Owner_Email"])     
+        failure, avgMorale, avgDiff, avgComm, avgProg, _,_ = runAlg(current_project["Project_Name"], current_project["Owner_Email"])
+
 
         # results = runAlg(current_project["Project_Name"], current_project["Owner_Email"])
         # print(results)
 
         return render_template('auth/projectData.html', name=current_user, inprogress=inprogress, project=current_project, team=current_team, members=members, owner=owner
-                               , avgMorale=avgMorale, avgComm=avgComm, avgDiff=avgDiff, avgProg=avgProg)
+                               , avgMorale=avgMorale, avgComm=avgComm, avgDiff=avgDiff, avgProg=avgProg, failure=failure, spending=spending)
 
 @login_manager.user_loader
 def load_user(useremail):
