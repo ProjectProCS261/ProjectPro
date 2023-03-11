@@ -213,7 +213,7 @@ def review():
 
         # Create a new metrics entry with the form data
         project_metrics = {
-            "ProjectID": projectID,
+            "ProjectID": ObjectId(projectID),
             "MoraleRating": morale,
             "DifficultyRating": difficulty,
             "CommunicationRating": communication,

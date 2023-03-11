@@ -126,7 +126,7 @@ def getProjectMetrics(projectID, projectName, owner):
      # If no project metrics have been inputted yet, assume default values
     metricCount = projectMetrics.count_documents( {'ProjectID' : projectID} )
     if metricCount == 0:
-        onTrack = 'On Schedule'
+        onTrack = 'ontrack'
 
         # Get all projectIDs in projectMetrics
         projectIDs = list(projectMetrics.find( {}, {'_id' : 0, 'ProjectID' : 1} ))
@@ -175,7 +175,7 @@ def getProjectMetrics(projectID, projectName, owner):
         avgDiff = metricsMean[0]['avgDiff']
         avgProg = metricsMean[0]['avgProg']
         onTrack = (projectMetrics.find( {'ProjectID' : projectID}, {'_id' : 0, 'On_Track' : 1} ).sort('$natural', -1).limit(1))[0]['On_Track']
-        
+    
     # Concatenate list of metrics
     metrics = [methodology,  months, teamSize, avgMorale, avgComm, avgDiff, avgProg, onTrack]
     return metrics
