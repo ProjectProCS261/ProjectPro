@@ -3,6 +3,7 @@ import pytest
 from flask import Flask, url_for, session
 from flask_login import login_user, LoginManager, logout_user, current_user, login_required, UserMixin
 from app import app
+from app.services.database import getDatabase
 from app.views import User
 from app.services.project import getProjectID
 
@@ -10,7 +11,7 @@ from app.services.project import getProjectID
 def client():
     return app.test_client()
 
-# define the test cases
+# Define the test cases
 def test_registration_successful(client):
     with client:
         response = client.post('/register', data=dict(email='testuser@example.com', password='password', confirm_password='password'), follow_redirects=True)
@@ -57,4 +58,14 @@ def test_review_project(client):
         assert response.status_code == 200
         assert response.request.path == url_for("home")
 
+def test_add_user_to_team(client):
+    with client:
+        client.post('/login', data=dict(email='testuser@example.com', password='password'), follow_redirects=False)
+        client.post('/addProject', data=dict(project_name='test project2', client_name='test client2', methodology='Agile', budget='5000',owner='testuser@example.com',start_date='2023-01-01',deadline='2023-02-01'), follow_redirects=True)
+        pID = getProjectID('test project2', 'testuser@example.com')
+        db = getDatabase()
+        teamID = (db["TEAM"].find_one({"ProjectID" : [pID]}))
+        response = client.post('/projectdata', data=dict(type = "add", ProjectID = pID, TeamID = teamID["_id"], member = 'lucy@gmail.com'))
+        u = db["USER_TEAM"].find_one({"TeamID" : teamID["_id"], "User_Email" : "lucy@gmail.com"})
+        assert u["User_Email"] == "lucy@gmail.com"
 
