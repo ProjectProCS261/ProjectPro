@@ -131,7 +131,7 @@ def home():
         projectID = proj["_id"]
         print(projectID)
         print(proj["Project_Name"])
-        entry = metrics_collection.find({"ProjectID":str(projectID), "User": current_user.email, "Date": {'$gte': (day - timedelta(days=7))}})
+        entry = metrics_collection.find({"ProjectID": projectID, "User": current_user.email, "Date": {'$gte': (day - timedelta(days=7))}})
         size = 0
         for _ in entry:
             size+=1

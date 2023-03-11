@@ -7,6 +7,41 @@ import numpy as np
 from datetime import datetime
 import json
 
+# Trains the linear regression model on the sample data 
+def trainAlg(): 
+    # Get example data
+    f = open("app/services/sampledata.json")
+    sampleData = json.load(f)
+    exampleData = pd.DataFrame(sampleData)
+    # Split example data into features x and target y
+    Xd = exampleData[['Methodology', 'Duration', 'GroupSize', 'MoraleRating', 'CommunicationRating', 'DifficultyRating']].to_numpy()
+    yd = exampleData[['lowMorale','tooDifficult','poorCommunication']].to_numpy()
+
+    # Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(Xd, yd, test_size=0.2, random_state=0,shuffle = True)
+
+    # Encode categorical data
+    le = preprocessing.LabelEncoder()
+    methodologies = X_train[:,0]
+    methods = np.array(["Waterfall", "Scrum", "Agile", "Lean", "Feature-Driven", "Extreme-Programming"])
+    methodsEnc = (pd.get_dummies(methods)).values.tolist()
+    methodsMatch = dict(zip(methods, methodsEnc))
+    X_train_cat = [methodsMatch.get(item,item)  for item in methodologies]
+    X_train_num = X_train[:,1:]
+    X_train = np.column_stack((X_train_num, X_train_cat))
+
+    morale = y_train[:,0]
+    diff = y_train[:,1]
+    comm = y_train[:,2]
+    y_train = np.column_stack((le.fit_transform(morale), le.fit_transform(diff), le.fit_transform(comm)))
+
+    # Train a linear regression model
+    lr = LinearRegression(fit_intercept=False)
+    lr.fit(X_train, y_train)
+    return (lr, X_test, y_test, methodsMatch)
+
+trainedAlg = trainAlg()
+
 # Algorithm for calculating the probability of a project failing
 def runAlg(projectName, owner):
     # Get project ID
@@ -16,7 +51,6 @@ def runAlg(projectName, owner):
     df = getProjectMetrics(projectID, projectName, owner)
 
     # Train model
-    trainedAlg = trainAlg()
     lr = trainedAlg[0]
     methodsMatch = trainedAlg[3]
 
@@ -63,38 +97,6 @@ def runAlg(projectName, owner):
     # Return list of probabilities
     return [round(initProbOfFailure*100,1), round(lowMorale*100,1), round(tooDifficult*100,1), round(poorCommunication*100,1), round(progressProb*100,1), round(budgetProb*100,1), round(methodTeamProb*100,1)]
 
-# Trains the linear regression model on the sample data 
-def trainAlg(): 
-    # Get example data
-    f = open("app/services/sampledata.json")
-    sampleData = json.load(f)
-    exampleData = pd.DataFrame(sampleData)
-    # Split example data into features x and target y
-    Xd = exampleData[['Methodology', 'Duration', 'GroupSize', 'MoraleRating', 'CommunicationRating', 'DifficultyRating']].to_numpy()
-    yd = exampleData[['lowMorale','tooDifficult','poorCommunication']].to_numpy()
-
-    # Split data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(Xd, yd, test_size=0.2, random_state=0,shuffle = True)
-
-    # Encode categorical data
-    le = preprocessing.LabelEncoder()
-    methodologies = X_train[:,0]
-    methods = np.array(["Waterfall", "Scrum", "Agile", "Lean", "Feature-Driven", "Extreme-Programming"])
-    methodsEnc = (pd.get_dummies(methods)).values.tolist()
-    methodsMatch = dict(zip(methods, methodsEnc))
-    X_train_cat = [methodsMatch.get(item,item)  for item in methodologies]
-    X_train_num = X_train[:,1:]
-    X_train = np.column_stack((X_train_num, X_train_cat))
-
-    morale = y_train[:,0]
-    diff = y_train[:,1]
-    comm = y_train[:,2]
-    y_train = np.column_stack((le.fit_transform(morale), le.fit_transform(diff), le.fit_transform(comm)))
-
-    # Train a linear regression model
-    lr = LinearRegression(fit_intercept=False)
-    lr.fit(X_train, y_train)
-    return (lr, X_test, y_test, methodsMatch)
 
 # Tests the algorithm using the test data and returns a score of accuracy (best possible score is 1)
 def testAlg(model, X_test, y_test, methodsMatch):

@@ -73,7 +73,7 @@ def getExpenditures(projectName, owner):
     projectID = getProjectID(projectName, owner)
     db = getDatabase()
     expenditures = db["PROJECT_EXPENDITURE"]
-    allExpenditures = expenditures.find({'ProjectID':str(projectID)})
+    allExpenditures = expenditures.find({'ProjectID': projectID})
     return([i for i in allExpenditures])
 
 
