@@ -79,8 +79,9 @@ def runAlg(projectName, owner):
     initProbOfFailure = min(initProbOfFailure * overBudg * wrongMethod * behind,1)
 
     # Get actual probability of a project failing because of behing behind schedule and not making enough progress
-    if behind >= 1:
-        progressProb = behind - 1
+    behind = max(behind-1, 0)
+    if behind > 1:
+        progressProb = behind - 1,0
     else:
         progressProb = behind
     # Get actual probability of a project going over budget
