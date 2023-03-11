@@ -76,17 +76,6 @@ def getExpenditures(projectName, owner):
     allExpenditures = expenditures.find({'ProjectID': projectID})
     return([i for i in allExpenditures])
 
-
-# Add status to project once calculated
-def insertStatus(projectName, owner, status):
-    projectID = getProjectID(projectName, owner)
-    db = getDatabase()
-    statuses = db["PROJECT_STATUS"]
-    statuses.insert_one({
-        'ProjectID' : projectID,
-        'Status' : status
-    })
-
 # Add a users metrics to database
 def insertMetrics(projectName, owner, morale, diff, comm, prog, onTrack, date):
     db = getDatabase()
