@@ -199,7 +199,7 @@ def review():
             status = request.form["status"]
             expenses = "0"+request.form["expenses"]
             project_expenditure = {
-                "ProjectID": projectID,
+                "ProjectID": ObjectId(projectID),
                 "Expenditure": int(expenses),
                 "Date": today
             }

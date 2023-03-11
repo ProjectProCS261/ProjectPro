@@ -16,3 +16,15 @@ if __name__ == "__main__":
     # Get the database
     db = getDatabase()
 
+def clearDatabase():
+    projects = db["PROJECT"]
+    exp = db["PROJECT_EXPENDITURE"]
+    met = db["PROJECT_METRICS"]
+    team = db["TEAM"]
+    user = db["USER"]
+    usert = db["USER_TEAM"]
+
+    arr = [projects, exp, met, team, user, usert]
+    for i in arr:
+        i.delete_many({})
+
