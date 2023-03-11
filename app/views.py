@@ -129,8 +129,6 @@ def home():
     day = datetime.today()
     for proj in inprogress:
         projectID = proj["_id"]
-        print(projectID)
-        print(proj["Project_Name"])
         entry = metrics_collection.find({"ProjectID": projectID, "User": current_user.email, "Date": {'$gte': (day - timedelta(days=7))}})
         size = 0
         for _ in entry:
@@ -233,7 +231,7 @@ def review():
         if current_project['Owner_Email'] == current_user.email:
             owner = True
         projects, inprogress = get_projects()
-        return render_template("auth/input.html", owner=owner, projectID=projectID, name=current_user, inprogress=inprogress)
+        return render_template("auth/input.html", owner=owner, projectID=projectID, name=current_user, inprogress=inprogress, project=current_project)
 
 @app.route('/projectdata', methods=["GET", "POST"])
 @login_required 

@@ -40,7 +40,6 @@ def trainAlg():
     lr.fit(X_train, y_train)
     return (lr, X_test, y_test, methodsMatch)
 
-trainedAlg = trainAlg()
 
 # Algorithm for calculating the probability of a project failing
 def runAlg(projectName, owner):
@@ -51,6 +50,7 @@ def runAlg(projectName, owner):
     df = getProjectMetrics(projectID, projectName, owner)
 
     # Train model
+    trainedAlg = trainAlg()
     lr = trainedAlg[0]
     methodsMatch = trainedAlg[3]
 

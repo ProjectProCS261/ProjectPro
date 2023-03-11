@@ -72,7 +72,7 @@
                                     <div class="display-6 shadow-text" style="text-align:center">{{100*spending / project.Budget}}% spent</div>
                                 </div> 
                                 <div class="progress my-2" style="height: 35px; background-color: rgb(43, 40, 40);">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{spending / project.Budget}}" aria-valuemin="0" aria-valuemax="1" style="width: 75%; float: right; background-color:rgb(196, 109, 37)"></div>
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{100*spending / project.Budget}}" aria-valuemin="0" aria-valuemax="100" style="width: {{100*spending / project.Budget}}%; float: right; background-color:rgb(196, 109, 37)"></div>
                                 </div>
                             </div>
                         </div>
